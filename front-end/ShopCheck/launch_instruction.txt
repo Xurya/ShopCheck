@@ -1,0 +1,17 @@
+Make sure you have NodeJS installed, so that npm can be used.
+
+Note: if you're currently using WSL, you need to use powershell. 
+There's an issue with the Windows & Linux communication layer that causes network issues from expo-cli.
+
+First, in bash/powershell, run sudo npm install -g expo-cli
+Next, move into the front-end\ShopCheck folder and run npm ci
+Finally, run npm start. 
+    If you're getting the issue where "'expo' is not recognized as an internal..." on powershell,
+    then run setx path "%path%;%USERPROFILE%\AppData\Roaming\npm" and relaunch powershell.
+
+
+    Otherwise, this will launch a separate localhost:19002 webpage that has the Expo DevTools.
+        You have 3 choices: 
+            (1) run it on an emulator for Android/iOS
+            (2) run it in browser
+            (3) Install Expo onto your device, scan the QR Code that's displayed, this will launch the app on your phone.
