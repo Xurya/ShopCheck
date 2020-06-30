@@ -9,6 +9,8 @@
   "author": "Conan Wong, Jimmy Zhang, Ryan Xu",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^3.5.9"
+    "mongod": "^2.0.0",
+    "mongodb": "^3.5.9",
+    "node": "^14.4.0"
   }
 }
