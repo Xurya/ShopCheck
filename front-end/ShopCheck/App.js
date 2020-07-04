@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'; //This is to support react-navigation wrapper
 import { createStackNavigator } from '@react-navigation/stack';
 
+import Registration from './Registration.js';
+
 const Stack = createStackNavigator(); 
 
 export default function App() {
@@ -13,14 +15,17 @@ export default function App() {
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={HomeScreen} options={{ title: "ShopCheck" }}/>
-          <Stack.Screen name="Registration" component={RegistrationScreen}/>
+          <Stack.Screen name="Home" component={HomeScreen}/> 
+          <Stack.Screen name="Registration" component={Registration}/>
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
   );
+
+  //Example options={{ title: "ShopCheck" }}
 }
 
+//TODO: rename and move HomeScreen to a different class (ex. Splash, Landing, etc)
 function HomeScreen({navigation}){
   return(
     <SafeAreaView style={styles.container}>
@@ -28,14 +33,6 @@ function HomeScreen({navigation}){
       <Image style={styles.img} source={require('./assets/logo.png')}/>
 
       <Button title="Registration" onPress={()=>navigation.push("Registration")} />
-    </SafeAreaView> 
-  );
-}
-
-function RegistrationScreen({navigation}){
-  return (
-    <SafeAreaView>
-      <Text>Registration Screen</Text>
     </SafeAreaView>
   );
 }
