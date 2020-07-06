@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
 import 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context'; //This is to support react-navigation wrapper
+import $ from 'jquery';
 
 export default function Registration(){
     const [username,setUsername] = useState('');
@@ -46,13 +47,35 @@ export default function Registration(){
                     secureTextEntry={true}
                     style={{borderBottomWidth:1, padding:0}}/>
             </View> 
-            <TouchableOpacity onPress={()=>console.log(`username: ${username}\nemail: ${email}\npassword: ${password}`)} style={styles.button}>
+            <TouchableOpacity onPress={(username, email, password)=>sendRegistration(username, email, password)} style={styles.button}>
                 <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
                     Register
                 </Text>
             </TouchableOpacity>
         </SafeAreaView>
     );
+}
+
+function sendRegistration(username, email, password){
+    /*
+    var req = new XMLHttpRequest();
+    xhr.addEventListener('load', () => {
+        console.log(xhr.responseText)
+    })
+    xhr.open('POST', '157.245.243.174:443', true); //Changeable port. 
+    */
+
+    //Switching to jquery for AJAX instead :)
+    var ajxr = $.post('157.245.243.174:443',  {
+        'username': username,
+        'email': email,
+        'password': password
+    })
+
+    ajxr.success(function(){
+        //TODO: Grab response text and alert here.
+        console.log("Response Recieved");
+    });
 }
 
 const styles = StyleSheet.create({ 
