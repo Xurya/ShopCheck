@@ -1,0 +1,66 @@
+import React, { useState } from 'react';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native'
+
+
+export default function Login(){
+    const [username,setUsername] = useState('');
+    const [password,setPassword] = useState('');
+
+    return <SafeAreaView style={styles.container}>
+        <Text style={{fontSize:24}}>
+            Login Page
+        </Text>
+
+        <View style={{flexDirection:'row', alignItems:'center'}}>
+            <Text style={{margin:7}}>
+                Username:
+            </Text>
+            <TextInput 
+                placeholder="Username" 
+                onChangeText={text => setUsername(text)} 
+                placeholderTextColor='white'
+                style={{borderBottomWidth:1, padding:0}}/>
+        </View>
+        
+        <View style={{flexDirection:'row', alignItems:'center'}}>
+            <Text style={{margin:7}}>
+                Password:
+            </Text>
+            <TextInput 
+                placeholder="Password" 
+                onChangeText={text => {setPassword(text)}} 
+                placeholderTextColor='white' 
+                secureTextEntry={true}
+                style={{borderBottomWidth:1, padding:0}}/>
+        </View> 
+        <TouchableOpacity onPress={()=>console.log(`username: ${username}\npassword: ${password}`)} style={styles.button}>
+            <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
+                Login
+            </Text>
+        </TouchableOpacity>
+    </SafeAreaView>
+}
+
+const styles = StyleSheet.create({
+    container:{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#9db1e0',
+    },
+    button:{
+      shadowColor: 'rgba(0,0,0, .4)', // IOS
+      shadowOffset: { height: 1, width: 1 }, // IOS
+      shadowOpacity: 1, // IOS
+      shadowRadius: 1, //IOS
+      elevation: 5, // Android,
+      height:40,
+      width:80,
+      backgroundColor:'#009CFF',
+      alignItems:'center',
+      justifyContent:'center',
+      margin: 6,
+      borderRadius:20,
+    }
+})

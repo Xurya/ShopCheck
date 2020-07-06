@@ -14,13 +14,13 @@ class Registration extends React.Component{
     render(){
         return (
             <SafeAreaView style={styles.container}>
-                <Text style={{fontSize:24}}>Registration Screen</Text>
+                <Text style={{fontSize:24}}>Enter your desired username.</Text>
                 <TextInput
                     placeholder="Name"
                     value={this.state.displayName}
                     placeholderTextColor='white'
                     onChangeText={(val) => this.updateInputVal(val, 'displayName')}
-                    style = {{fontSize:18, color:'white',}}
+                    style = {{fontSize:18, color:'white'}}
                 />
             </SafeAreaView>
         );
