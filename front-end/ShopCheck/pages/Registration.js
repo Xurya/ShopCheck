@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
 import 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context'; //This is to support react-navigation wrapper
-import $ from 'jquery';
 
 export default function Registration(){
     const [username,setUsername] = useState('');
@@ -31,7 +30,7 @@ export default function Registration(){
                 </Text>
                 <TextInput 
                     placeholder="Email" 
-                    onChangeText={text => setUsername(text)} 
+                    onChangeText={text => setEmail(text)} 
                     placeholderTextColor='white'
                     style={{borderBottomWidth:1, padding:0}}/>
             </View> 
@@ -47,7 +46,7 @@ export default function Registration(){
                     secureTextEntry={true}
                     style={{borderBottomWidth:1, padding:0}}/>
             </View> 
-            <TouchableOpacity onPress={(username, email, password)=>sendRegistration(username, email, password)} style={styles.button}>
+            <TouchableOpacity onPress={()=>sendRegistration(username, email, password)} style={styles.button}>
                 <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
                     Register
                 </Text>
@@ -57,24 +56,26 @@ export default function Registration(){
 }
 
 function sendRegistration(username, email, password){
-    /*
-    var req = new XMLHttpRequest();
-    xhr.addEventListener('load', () => {
-        console.log(xhr.responseText)
-    })
-    xhr.open('POST', '157.245.243.174:443', true); //Changeable port. 
-    */
+    var imagineHavingToDoThis = {}
+    imagineHavingToDoThis['username'] = '' + username;
+    imagineHavingToDoThis['email'] = '' + email;
+    imagineHavingToDoThis['password'] = '' + password;
 
-    //Switching to jquery for AJAX instead :)
-    var ajxr = $.post('157.245.243.174:443',  {
-        'username': username,
-        'email': email,
-        'password': password
+    //TODO:Configure w/ backend
+   fetch("157.245.243.174:443", {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(imagineHavingToDoThis)
+   })
+   .then((response) => response.json())
+    .then((json) => {
+      return "Registration Response Recieved!";
     })
-
-    ajxr.success(function(){
-        //TODO: Grab response text and alert here.
-        console.log("Response Recieved");
+    .catch((error) => {
+      console.error(error);
     });
 }
 
