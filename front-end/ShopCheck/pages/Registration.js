@@ -8,7 +8,7 @@ export default function Registration(){
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             <Text style={{fontSize:24}}>
                 Registration Page
             </Text>

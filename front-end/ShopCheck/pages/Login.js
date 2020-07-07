@@ -34,12 +34,35 @@ export default function Login(){
                 secureTextEntry={true}
                 style={{borderBottomWidth:1, padding:0}}/>
         </View> 
-        <TouchableOpacity onPress={()=>console.log(`username: ${username}\npassword: ${password}`)} style={styles.button}>
+        <TouchableOpacity onPress={()=>sendLogin(username, password)} style={styles.button}>
             <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
                 Login
             </Text>
         </TouchableOpacity>
     </SafeAreaView>
+}
+
+function sendLogin(username, password){
+    var imagineHavingToDoThis = {}
+    imagineHavingToDoThis['username'] = '' + username;
+    imagineHavingToDoThis['password'] = '' + password;
+
+    //TODO:Configure w/ backend
+   fetch("157.245.243.174:443", {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(imagineHavingToDoThis)
+   })
+   .then((response) => response.json())
+    .then((json) => {
+      return "Registration Response Recieved!";
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
 const styles = StyleSheet.create({
