@@ -55,28 +55,28 @@ export default function Registration(){
     );
 }
 
-function sendRegistration(username, email, password){
-    var imagineHavingToDoThis = {}
-    imagineHavingToDoThis['username'] = '' + username;
-    imagineHavingToDoThis['email'] = '' + email;
-    imagineHavingToDoThis['password'] = '' + password;
+async function sendRegistration(username, email, password){
+    let accountDetails = {username,email,password}
 
     //TODO:Configure w/ backend
-   fetch("157.245.243.174:443", {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(imagineHavingToDoThis)
-   })
-   .then((response) => response.json())
-    .then((json) => {
-      return "Registration Response Recieved!";
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+    //replace with 157.245.243.174 on deploy to droplet
+    //replace with LAN IP of hosting computer if using expo app on device
+    //replace with 10.0.2.2 if using AVD
+    try{ 
+        let response = await fetch("http://10.0.2.2:5000/account/register", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(accountDetails)
+        })
+        let resObj = await response.json();
+        console.log(resObj);
+    }
+    catch (err){
+        console.error(err);
+    }
 }
 
 const styles = StyleSheet.create({ 
