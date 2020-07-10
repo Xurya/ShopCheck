@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
+import { Alert, Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
 import 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context'; //This is to support react-navigation wrapper
 
@@ -46,12 +46,44 @@ export default function Registration(){
                     secureTextEntry={true}
                     style={{borderBottomWidth:1, padding:0}}/>
             </View> 
-            <TouchableOpacity onPress={()=>sendRegistration(username, email, password)} style={styles.button}>
+            <TouchableOpacity onPress={()=>checkRegistration(username, email, password)} style={styles.button}>
                 <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
                     Register
                 </Text>
             </TouchableOpacity>
         </SafeAreaView>
+    );
+}
+
+function checkRegistration(username, email, password){
+    if (username == '' || email == '' || password == '') {
+        sendAlertOK("Invalid Form", "Please fill out all required fields");
+    } else if (username.length<6) {
+        sendAlertOK("Invalid Username", "Username cannot have less than 6 characters");
+    } else if (!email.includes('@')) {
+        sendAlertOK("Invalid Email", "Email must contain an @");
+    } else if (password.length<6) {
+        sendAlertOK("Invalid Password", "Password cannot have less than 6 characters");
+    } else if (password.includes('<') || password.includes('>')) {
+        //This is for security due to use of markdown.
+        sendAlertOK("Invalid Password", "Password cannot contain tags (less than or greater than signs)");
+    } else {
+        //If all tests pass, send to server.
+        sendRegistration(username, email, password);
+
+        //TODO: Handle Response. ex. Success or Failure.
+
+    }
+}
+
+function sendAlertOK(title, msg){
+    Alert.alert(
+        title,
+        msg,
+        [
+        { text: 'OK', onPress: () => console.log('OK Pressed') }
+        ],
+        { cancelable: false }
     );
 }
 
