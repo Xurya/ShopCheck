@@ -10,11 +10,11 @@ app.use(express.json({limit:'1mb'}));
 app.post('/account/register',(req,res)=>{
     console.log('Register request recieved')
 
-    let payload = req.body;
+    var payload = req.body;
     console.log(payload);
 
     //Check payload:
-    let response = checkPayload('register', payload);
+    var response = "" + checkPayload('register', payload);
 
     if(response == 'success'){
         res.json({
@@ -33,7 +33,7 @@ app.post('/account/register',(req,res)=>{
 app.post('/account/login',(req,res)=>{
     console.log('Login request recieved');
 
-    let payload = req.body;
+    var payload = req.body;
     console.log(payload);
 
     res.json({
@@ -43,22 +43,20 @@ app.post('/account/login',(req,res)=>{
 });
 
 function checkPayload(type, payload){
-    //Multipurposing for both login and registration
-    parsed = JSON.parse(payload);
 
     //Object.length is not applicable for JSON, so manually count.
     var count=0;
-    for(var prop in obj) {
-       if (obj.hasOwnProperty(prop) && obj.prop != null && obj.prop != '') {
-          count++;
-       }
+    for(var prop in payload) {
+        if (payload.hasOwnProperty(prop) && prop != null && prop != '') {
+            count++;
+        }
     }
 
     //Type Specific Rules
     if(type=='register'){
         if (count != 3){
             return 'Required fields cannot be empty or null';
-        } else if (!obj.email.includes('@')) {
+        } else if (!payload["email"].includes('@')) {
             return 'Email must contain an @';
         }
     }else if(type=='login'){
@@ -68,11 +66,11 @@ function checkPayload(type, payload){
     }
 
     //Overlapping Rules
-    if(obj.username.length < 6){
+    if(payload["username"].length < 6){
         return 'Username cannot have less than 6 characters';
-    }  else if (obj.password.length < 6){
+    }  else if (payload["password"].length < 6){
         return 'Password cannot have less than 6 characters';
-    } else if (obj.password.includes('<') || password.includes('>')) {
+    } else if (payload["password"].includes('<') || payload["password"].includes('>')) {
         return 'Password cannot contain tags (less than or greater than signs)';
     }
 

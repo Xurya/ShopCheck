@@ -14,7 +14,12 @@ http.createServer(function (req, res){
 		var sig = "sha1=" + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
 		
 		if(req.headers['x-hub-signature'] == sig){
+			//TODO: Possible improvement would be to signal deployment pause (save state or finish process).
+
+			//Update repo
 			exec("cd " + repo + " && git pull");
+
+			//TODO: Add re-deployment commands if necessary. 
 		}
 	});
 	res.end();
