@@ -49,19 +49,34 @@ function checkPayload(type, payload){
     //Object.length is not applicable for JSON, so manually count.
     var count=0;
     for(var prop in obj) {
-       if (obj.hasOwnProperty(prop) && obj.prop != '') {
+       if (obj.hasOwnProperty(prop) && obj.prop != null && obj.prop != '') {
           count++;
        }
-       //UNFINISHED - Going to sleep. Will finish tomorrow.
     }
 
+    //Type Specific Rules
     if(type=='register'){
         if (count != 3){
-            return 'Required fields cannot be empty';
+            return 'Required fields cannot be empty or null';
+        } else if (!obj.email.includes('@')) {
+            return 'Email must contain an @';
         }
     }else if(type=='login'){
-
+        if (count != 2){
+            return 'Required fields cannot be empty or null';
+        } 
     }
+
+    //Overlapping Rules
+    if(obj.username.length < 6){
+        return 'Username cannot have less than 6 characters';
+    }  else if (obj.password.length < 6){
+        return 'Password cannot have less than 6 characters';
+    } else if (obj.password.includes('<') || password.includes('>')) {
+        return 'Password cannot contain tags (less than or greater than signs)';
+    }
+
+    //TODO: Check for database conflicts.
 
     return 'success';
 }
