@@ -91,11 +91,19 @@ function checkPayload(type, payload){
     if (type=='register') {
         //TODO: Check for database conflict
         
-        //TODO: If there is no conflict, save user into database
+        //If there is no conflict, save user into database
+
+        //TODO: salt password
+
+        //TODO: store salt and hash seperately
     } else if (type=='login') {
         //Check if user exists in database
 
         //If user exists, check authentication
+
+        //TODO: Salt password
+
+        //TODO: Compare Salted password to database
 
         //If authentication is correct, create JWT token 
         var token = jwt.sign({ id: payload["username"] }, config.secret, {
