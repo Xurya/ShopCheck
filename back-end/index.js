@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const mongo = require('mongodb');
+const config = require("../config/auth.config");
+var jwt = require("jsonwebtoken");
+var bcrypt = require("bcryptjs");
 const PORT = process.env.PORT || 5000;
 
 
@@ -85,6 +88,11 @@ function checkPayload(type, payload){
         //If user exists, check authentication
 
         //If authentication is correct, create JWT token 
+        var token = jwt.sign({ id: payload["username"] }, config.secret, {
+            expiresIn: 86400 // 24 hours
+        });
+
+        console.log("TOKEN: " + token);
     }
 
 
