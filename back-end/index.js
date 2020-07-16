@@ -3,6 +3,7 @@ const app = express();
 const mongo = require('mongodb');
 const PORT = process.env.PORT || 5000;
 
+
 app.listen(PORT,()=>{console.log(`Server Listening on Port ${PORT}`)});
 app.use(express.json({limit:'1mb'}));
 
@@ -74,7 +75,20 @@ function checkPayload(type, payload){
         return 'Password cannot contain tags (less than or greater than signs)';
     }
 
-    //TODO: Check for database conflicts.
+    if (type=='register') {
+        //TODO: Check for database conflict
+        
+        //TODO: If there is no conflict, save user into database
+    } else if (type=='login') {
+        //Check if user exists in database
 
+        //If user exists, check authentication
+
+        //If authentication is correct, create JWT token 
+    }
+
+
+    
+    //TODO: Convert to [message, token on success for login]
     return 'success';
 }
