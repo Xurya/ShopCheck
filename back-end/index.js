@@ -104,13 +104,14 @@ function checkPayload(type, payload){
                 return 'Security Error! Please Try Again!';
             }
             hashedpass = derivedKey.toString('hex');
+
+            if(hashedpass!=''){
+                console.log("Hash: " + hashedpass);
+                console.log("Salt: " + salt);
+
+                //TODO: store salt and hash seperately
+            }
         });
-
-        if(hashedpass!=''){
-            console.log(hashedpass);
-
-            //TODO: store salt and hash seperately
-        }
     } else if (type=='login') {
         //Check if user exists in database
 
