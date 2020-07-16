@@ -3,6 +3,7 @@ const app = express();
 const mongo = require('mongodb');
 const config = require("../back-end/config/auth.config.js");
 var crypto = require('crypto');
+crypto.DEFAULT_ENCODING = 'hex';
 var jwt = require("jsonwebtoken");
  
 const PORT = process.env.PORT || 5000;
@@ -97,21 +98,12 @@ function checkPayload(type, payload){
         //TODO: salt and hash password
         var buf = crypto.randomBytes(16);
         var salt = buf.toString('base64');
-        var hashedpass = '';
+        var hashedpass = crypto.pbkdf2Sync(payload["password"], salt, 100000, 64, 'sha512');
 
-        crypto.pbkdf2(payload["password"], salt, 100000, 64, 'sha512', (err, derivedKey) => {
-            if (err) {
-                return 'Security Error! Please Try Again!';
-            }
-            hashedpass = derivedKey.toString('hex');
+        console.log("Hash: " + hashedpass);
+        console.log("Salt: " + salt);
 
-            if(hashedpass!=''){
-                console.log("Hash: " + hashedpass);
-                console.log("Salt: " + salt);
-
-                //TODO: store salt and hash seperately
-            }
-        });
+        //TODO: store salt and hash seperately
     } else if (type=='login') {
         //Check if user exists in database
 
