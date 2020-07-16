@@ -2,8 +2,11 @@ const express = require('express');
 const app = express();
 const mongo = require('mongodb');
 const config = require("../back-end/config/auth.config.js");
+var crypto = require('crypto');
 var jwt = require("jsonwebtoken");
+ 
 const PORT = process.env.PORT || 5000;
+const hash = new SHA3(256);
 
 
 app.listen(PORT,()=>{console.log(`Server Listening on Port ${PORT}`)});
@@ -92,9 +95,23 @@ function checkPayload(type, payload){
         
         //If there is no conflict, save user into database
 
-        //TODO: salt password
+        //TODO: salt and hash password
+        var buf = crypto.randomBytes(16);
+        var salt = buf.toString('base64');
+        var hashedpass = '';
 
-        //TODO: store salt and hash seperately
+        crypto.pbkdf2(payload["password"], salt, 100000, 64, 'sha512', (err, derivedKey) => {
+            if (err) {
+                return 'Security Error! Please Try Again!';
+            }
+            hashedpass = derivedKey.toString('hex');
+        });
+
+        if(hashedpass!=''){
+            console.log(hashedpass);
+
+            //TODO: store salt and hash seperately
+        }
     } else if (type=='login') {
         //Check if user exists in database
 
