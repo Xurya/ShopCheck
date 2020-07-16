@@ -95,7 +95,7 @@ function checkPayload(type, payload){
         
         //If there is no conflict, save user into database
 
-        //TODO: salt and hash password
+        //Salt and Hash password
         var buf = crypto.randomBytes(16);
         var salt = buf.toString('base64');
         var hashedpass = crypto.pbkdf2Sync(payload["password"], salt, 100000, 64, 'sha512');
@@ -105,7 +105,7 @@ function checkPayload(type, payload){
 
         //TODO: store salt and hash seperately
     } else if (type=='login') {
-        //Check if user exists in database
+        //TODO: Check if user exists in database
 
         //If user exists, check authentication
 
