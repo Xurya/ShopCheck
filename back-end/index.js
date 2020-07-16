@@ -3,7 +3,6 @@ const app = express();
 const mongo = require('mongodb');
 const config = require("../back-end/config/auth.config.js");
 var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
 const PORT = process.env.PORT || 5000;
 
 
