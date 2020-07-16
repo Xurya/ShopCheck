@@ -6,7 +6,6 @@ var crypto = require('crypto');
 var jwt = require("jsonwebtoken");
  
 const PORT = process.env.PORT || 5000;
-const hash = new SHA3(256);
 
 
 app.listen(PORT,()=>{console.log(`Server Listening on Port ${PORT}`)});
