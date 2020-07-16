@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const mongo = require('mongodb');
-const config = require("../config/auth.config");
+const config = require("../back-end/config/auth.config.js");
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const PORT = process.env.PORT || 5000;
@@ -40,10 +40,20 @@ app.post('/account/login',(req,res)=>{
     var payload = req.body;
     console.log(payload);
 
-    res.json({
-        status: 'success',
-        message: 'recieved login'
-    }) 
+    //Check payload:
+    var response = "" + checkPayload('login', payload);
+
+    if(response == 'success'){
+        res.json({
+            status: 'success',
+            message: 'recieved registration'
+        })
+    }else{
+        res.json({
+            status: 'fail',
+            message: response
+        })
+    }
 });
 
 function checkPayload(type, payload){
