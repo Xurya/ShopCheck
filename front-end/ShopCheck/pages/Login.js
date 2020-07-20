@@ -2,6 +2,34 @@ import React, { useState } from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { Alert, Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native'
 
+//import * as SecureStore from "expo-secure-store";
+
+//Secure Storage for JWTs:
+//---------------------------------------------------------------------------------------------------------------------------
+/**
+ * Saves the value to the ios keychain or Android keystore
+ * @param {string} key => the key you want to save the value for
+ * @param {any} value => the value you want to encrypt
+ * @return => A promise that will reject if value cannot be stored on the device.
+ */
+///SecureStore.setItemAsync(key, value);
+
+/**
+ * Fetches the value from the keychain/keystore for the specified key
+ * @param {string} key => the key you set for the value
+ * @returns {any} => A promise that resolves to the previously stored value, or null if there is no entry for the given key.
+ * The promise will reject if an error occurred while retrieving the value.
+ */
+//SecureStore.getItemAsync(key);
+
+/**
+ * Saves the value to the ios keychain or Android keystore
+ * @param {string} key => the key you want to save the value for
+ * @param {any} value => the value you want to encrypt
+ * @return => A promise that will reject if value cannot be stored on the device.
+ */
+//SecureStore.deleteItemAsync(key);
+//---------------------------------------------------------------------------------------------------------------------------
 
 export default function Login(){
     const [username,setUsername] = useState('');

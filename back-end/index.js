@@ -1,12 +1,13 @@
 const express = require('express');
 const app = express();
 const mongo = require('mongodb');
-const config = require("../back-end/config/auth.config.js");
 var crypto = require('crypto');
 crypto.DEFAULT_ENCODING = 'hex';
 var jwt = require("jsonwebtoken");
  
 const PORT = process.env.PORT || 5000;
+var secret = crypto.randomBytes(16).toString("base64");
+var dateObj = new Date();
 
 
 app.listen(PORT,()=>{console.log(`Server Listening on Port ${PORT}`)});
@@ -100,6 +101,7 @@ function checkPayload(type, payload){
         var salt = buf.toString('base64');
         var hashedpass = crypto.pbkdf2Sync(payload["password"], salt, 100000, 64, 'sha512');
 
+        console.log("Username: "+ payload["username"]);
         console.log("Hash: " + hashedpass);
         console.log("Salt: " + salt);
 
@@ -114,8 +116,8 @@ function checkPayload(type, payload){
         //TODO: Compare Salted password to database
 
         //If authentication is correct, create JWT token 
-        var token = jwt.sign({ id: payload["username"] }, config.secret, {
-            expiresIn: 86400 // 24 hours
+        var token = jwt.sign({ id: payload["username"] }, secret, {
+            expiresIn: 900 //Seconds, 15 minutes.
         });
 
         console.log("TOKEN: " + token);
