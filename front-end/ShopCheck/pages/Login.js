@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { Alert, Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native'
 
-//import * as SecureStore from "expo-secure-store";
+import * as SecureStore from "expo-secure-store";
 
-//Secure Storage for JWTs:
-//---------------------------------------------------------------------------------------------------------------------------
+//Secure Storage for JWTs: If promise rejects on token storage then the app would be quite unusable due to security, so send an alert.
+//--------------------------------------------------------------------------------------------------------------------------------------
 /**
  * Saves the value to the ios keychain or Android keystore
  * @param {string} key => the key you want to save the value for
@@ -29,7 +29,7 @@ import { Alert, Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react
  * @return => A promise that will reject if value cannot be stored on the device.
  */
 //SecureStore.deleteItemAsync(key);
-//---------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------
 
 export default function Login(){
     const [username,setUsername] = useState('');
