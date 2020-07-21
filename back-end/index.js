@@ -2,17 +2,14 @@ const express = require('express');
 const app = express();
 const mongo = require('mongodb');
 var crypto = require('crypto');
-crypto.DEFAULT_ENCODING = 'hex';
 var jwt = require("jsonwebtoken");
  
 const PORT = process.env.PORT || 5000;
-var secret = crypto.randomBytes(16).toString("base64");
-var dateObj = new Date();
-
+var secret = crypto.randomBytes(32).toString("hex"); //TODO: store in database and retrieve on start. 
+//For scalability write seperate script that generates secrets at long intervals (one or twice a day) and updates database secret
 
 app.listen(PORT,()=>{console.log(`Server Listening on Port ${PORT}`)});
 app.use(express.json({limit:'1mb'}));
-
 
 app.post('/account/register',(req,res)=>{
     console.log('Register request recieved')
@@ -49,7 +46,7 @@ app.post('/account/login',(req,res)=>{
     if(response == 'success'){
         res.json({
             status: 'success',
-            message: 'recieved registration'
+            message: 'recieved login'
         })
     }else{
         res.json({
@@ -59,7 +56,52 @@ app.post('/account/login',(req,res)=>{
     }
 });
 
+app.post('/account/refresh',(req,res)=>{
+    console.log('Refresh request recieved');
+
+    var payload = req.body;
+    console.log(payload);
+
+    //Check payload:
+    var response = "" + checkPayload('refresh', payload);
+
+    if(response == 'fail'){
+        res.json({
+            status: 'fail',
+            message: 'invalid token'
+        })
+    }else{
+        var token = jwt.sign({ id: payload["username"] }, secret, {
+            expiresIn: 900
+        });
+
+        res.json({
+            status: 'success',
+            token: token
+        })
+    }
+})
+
 function checkPayload(type, payload){
+    //TODO: Update local secret by referencing database.
+
+    if(type=="refresh" && payload.hasOwnProperty("refresh") && payload[refresh] != null){
+        //TODO: Grab salt and hash from database
+        //var salt = 
+        //var storedHash =
+
+        //TODO: Salt and hash refresh token
+        //var hashedRefresh = crypto.pbkdf2Sync(rrefresh, salt, 100000, 64, 'sha512');
+
+        /*
+        if(hashedRefresh == storedHash){
+            return "success";
+        }
+
+        return "fail";
+        */
+    }
+
 
     //Object.length is not applicable for JSON, so manually count.
     var count=0;
@@ -115,12 +157,20 @@ function checkPayload(type, payload){
 
         //TODO: Compare Salted password to database
 
-        //If authentication is correct, create JWT token 
+        //If authentication is correct, create JWT authentication token 
         var token = jwt.sign({ id: payload["username"] }, secret, {
-            expiresIn: 900 //Seconds, 15 minutes.
+            expiresIn: 900
         });
 
-        console.log("TOKEN: " + token);
+        //Generate Refresh Token
+        var refresh = jwt.sign({ id: payload["username"] }, secret, {
+            expiresIn: 86400
+        });
+
+        //Hash refresh token and save into database using the same salt as password
+        //var hashedRefresh = crypto.pbkdf2Sync(rrefresh, salt, 100000, 64, 'sha512');
+
+        //just jwt.verify for validation. 
     }
 
 
