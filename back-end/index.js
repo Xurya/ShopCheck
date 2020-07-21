@@ -7,6 +7,7 @@ var jwt = require("jsonwebtoken");
 const PORT = process.env.PORT || 5000;
 var secret = crypto.randomBytes(32).toString("hex"); //TODO: store in database and retrieve on start. 
 //For scalability write seperate script that generates secrets at long intervals (one or twice a day) and updates database secret
+//Probably do this in config/auth.config.js
 
 app.listen(PORT,()=>{console.log(`Server Listening on Port ${PORT}`)});
 app.use(express.json({limit:'1mb'}));
