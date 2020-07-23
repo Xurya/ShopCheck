@@ -1,25 +1,38 @@
 const express = require('express');
 const app = express();
-const mongo = require('mongodb');
+const mongo = require('./mongo/mongo');
 var crypto = require('crypto');
 var jwt = require("jsonwebtoken");
- 
+
+const db = require('./mongo/server_connect')
+
 const PORT = process.env.PORT || 5000;
 var secret = crypto.randomBytes(32).toString("hex"); //TODO: store in database and retrieve on start. 
 //For scalability write seperate script that generates secrets at long intervals (one or twice a day) and updates database secret
 //Probably do this in config/auth.config.js
 
-app.listen(PORT,()=>{console.log(`Server Listening on Port ${PORT}`)});
+async function start(){
+    try{
+        await mongo.init();
+    }
+    catch (exception){
+        console.error(exception);
+    }
+}
+
 app.use(express.json({limit:'1mb'}));
+app.listen(PORT,()=>{console.log(`Server Listening on Port ${PORT}`)});
+start();
 
 app.post('/account/register',(req,res)=>{
     console.log('Register request recieved')
 
     var payload = req.body;
     console.log(payload);
-
     //Check payload:
     var response = "" + checkPayload('register', payload);
+    
+    mongo.Users.addUser(payload);
 
     if(response == 'success'){
         res.json({
@@ -43,6 +56,8 @@ app.post('/account/login',(req,res)=>{
 
     //Check payload:
     var response = "" + checkPayload('login', payload);
+    
+    //mongo.Users.getUser(payload.username);
 
     if(response == 'success'){
         res.json({
