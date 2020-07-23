@@ -108,13 +108,14 @@ async function sendLogin(username, password){
     //replace with LAN IP of hosting computer if using expo app on device
     //replace with 10.0.2.2 if using AVD
    try {
-       let response = await fetch("http://192.168.0.126:5000/account/login", {
+       let response = await fetch("http://10.0.2.2:5000/account/login", {
            method: 'POST',
            headers: {
                'Accept': 'application/json',
                'Content-Type': 'application/json'
             },
-        body: JSON.stringify(accountDetails)});
+            body: JSON.stringify(accountDetails)
+        });
         let resObj = await response.json();
         console.log (resObj);
     }

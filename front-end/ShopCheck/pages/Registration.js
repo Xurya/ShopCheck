@@ -7,6 +7,19 @@ export default function Registration(){
     const [username,setUsername] = useState('');
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
+    const [type, setType] = useState('');
+    const [owner,setOwner] = useState('#af5cf7');
+    const [buyer,setBuyer] = useState('#af5cf7')
+
+    const options = {
+        height:25,
+        width:75,
+        alignItems:'center',
+        justifyContent:'center',
+        margin: 6,
+        borderRadius:20
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <Text style={{fontSize:24}}>
@@ -46,7 +59,31 @@ export default function Registration(){
                     secureTextEntry={true}
                     style={{borderBottomWidth:1, padding:0}}/>
             </View> 
-            <TouchableOpacity onPress={()=>checkRegistration(username, email, password)} style={styles.button}>
+            
+            <View style={{flexDirection:'row', alignItems:'center'}}>   
+                <TouchableOpacity 
+                    onPress={()=>{setType('Owner'); setOwner('#7c41b0'); setBuyer('#af5cf7');}} 
+                    style={[options,{backgroundColor:owner}]}>
+
+                    <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
+                        Owner
+                    </Text>
+
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                    onPress={()=>{setType('Buyer'); setOwner('#af5cf7'); setBuyer('#7c41b0');}} 
+                    style={[options,{backgroundColor:buyer}]}>
+
+                    <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
+                        Buyer
+                    </Text>
+
+                </TouchableOpacity>
+            </View> 
+
+
+            <TouchableOpacity onPress={()=>checkRegistration(username, email, password,type)} style={styles.button}>
                 <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
                     Register
                 </Text>
@@ -55,7 +92,7 @@ export default function Registration(){
     );
 }
 
-function checkRegistration(username, email, password){
+function checkRegistration(username, email, password,type){
     if (username == '' || email == '' || password == '') {
         sendAlertOK("Invalid Form", "Please fill out all required fields");
     } else if (username.length<6) {
@@ -67,9 +104,12 @@ function checkRegistration(username, email, password){
     } else if (password.includes('<') || password.includes('>')) {
         //This is for security due to use of markdown.
         sendAlertOK("Invalid Password", "Password cannot contain tags (less than or greater than signs)");
-    } else {
+    } else if (!type){
+        sendAlertOK("Missing Option", "You must pick an option for the account type")
+    } 
+    else {
         //If all tests pass, send to server.
-        sendRegistration(username, email, password);
+        sendRegistration(username, email, password,type);
 
         //TODO: Handle Response. ex. Success or Failure.
 
@@ -87,22 +127,22 @@ function sendAlertOK(title, msg){
     );
 }
 
-async function sendRegistration(username, email, password){
-    let accountDetails = {username,email,password}
+async function sendRegistration(username, email, password,type){
+    let accountDetails = {username,email,password,salt:'placeholder',type}
 
     //TODO:Configure w/ backend
     //replace with 157.245.243.174 on deploy to droplet
     //replace with LAN IP of hosting computer if using expo app on device
     //replace with 10.0.2.2 if using AVD
     try{ 
-        let response = await fetch("http://192.168.0.126:5000/account/register", {
+        let response = await fetch("http://10.0.2.2:5000/account/register", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(accountDetails)
-        })
+        }) 
         let resObj = await response.json();
         console.log(resObj);
     }
