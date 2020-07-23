@@ -1,76 +1,30 @@
 const express = require('express');
 const app = express();
 const mongo = require('./mongo/mongo');
-var crypto = require('crypto');
-var jwt = require("jsonwebtoken");
+const mountRoutes = require('./routes');
 
-const db = require('./mongo/server_connect')
+const crypto = require('crypto');
+const jwt = require("jsonwebtoken");
+
 
 const PORT = process.env.PORT || 5000;
-var secret = crypto.randomBytes(32).toString("hex"); //TODO: store in database and retrieve on start. 
+const secret = crypto.randomBytes(32).toString("hex"); //TODO: store in database and retrieve on start. 
 //For scalability write seperate script that generates secrets at long intervals (one or twice a day) and updates database secret
 //Probably do this in config/auth.config.js
 
-async function start(){
+async function start(app){
     try{
         await mongo.init();
+        app.use(express.json({limit:'1mb'}));
+        app.listen(PORT,()=>{console.log(`Server Listening on Port ${PORT}`)});
+        mountRoutes(app);
     }
     catch (exception){
         console.error(exception);
     }
 }
 
-app.use(express.json({limit:'1mb'}));
-app.listen(PORT,()=>{console.log(`Server Listening on Port ${PORT}`)});
-start();
-
-app.post('/account/register',(req,res)=>{
-    console.log('Register request recieved')
-
-    var payload = req.body;
-    console.log(payload);
-    //Check payload:
-    var response = "" + checkPayload('register', payload);
-    
-    mongo.Users.addUser(payload);
-
-    if(response == 'success'){
-        res.json({
-            status: 'success',
-            message: 'recieved registration'
-        })
-    }else{
-        res.json({
-            status: 'fail',
-            message: response
-        })
-    }
-});
-
-
-app.post('/account/login',(req,res)=>{
-    console.log('Login request recieved');
-
-    var payload = req.body;
-    console.log(payload);
-
-    //Check payload:
-    var response = "" + checkPayload('login', payload);
-    
-    //mongo.Users.getUser(payload.username);
-
-    if(response == 'success'){
-        res.json({
-            status: 'success',
-            message: 'recieved login'
-        })
-    }else{
-        res.json({
-            status: 'fail',
-            message: response
-        })
-    }
-});
+start(app);
 
 app.post('/account/refresh',(req,res)=>{
     console.log('Refresh request recieved');
