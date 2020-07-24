@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Alert, Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
 import 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context'; //This is to support react-navigation wrapper
+import { useNavigation } from '@react-navigation/native';
 
-export default function Registration(){
+export default function Registration({navigation}){
     const [username,setUsername] = useState('');
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -88,6 +89,12 @@ export default function Registration(){
                     Register
                 </Text>
             </TouchableOpacity>
+
+            <TouchableOpacity onPress={()=>navigation.navigate("Landing")} style={styles.button}>
+                <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
+                    Back
+                </Text>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 }
@@ -110,9 +117,6 @@ function checkRegistration(username, email, password,type){
     else {
         //If all tests pass, send to server.
         sendRegistration(username, email, password,type);
-
-        //TODO: Handle Response. ex. Success or Failure.
-
     }
 }
 
@@ -143,12 +147,35 @@ async function sendRegistration(username, email, password,type){
             },
             body: JSON.stringify(accountDetails)
         }) 
-        let resObj = await response.json();
-        console.log(resObj);
+        let payload = await response.json();
+        console.log(payload);
+
+        if(payload["status"]==null){
+            sendAlertOK("fail", "Server Response Error");
+            return;
+        }
+
+        if(payload["status"]=="success"){
+            sendAlertOK("Success!", payload["message"]); //sendAlertLogin("Success!", payload["message"]) //Redirect
+            return;
+        }
     }
     catch (err){
         console.error(err);
     }
+}
+
+//Currently broken.
+function sendAlertLogin(title, msg){
+    const navigation = useNavigation();
+    Alert.alert(
+        title,
+        msg,
+        [
+        { text: 'OK', onPress: () => navigation.navigate("Login")}
+        ],
+        { cancelable: false }
+    );
 }
 
 const styles = StyleSheet.create({ 

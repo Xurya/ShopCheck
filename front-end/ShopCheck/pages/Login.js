@@ -11,7 +11,7 @@ import * as SecureStore from "expo-secure-store";
 //SecureStore.deleteItemAsync(key);
 //--------------------------------------------------------------------------------------------------------------------------------------
 
-export default function Login(){
+export default function Login({navigation}){
     const [username,setUsername] = useState('');
     const [password,setPassword] = useState('');
 
@@ -45,6 +45,11 @@ export default function Login(){
         <TouchableOpacity onPress={()=>checkLogin(username, password)} style={styles.button}>
             <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
                 Login
+            </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate("Landing")} style={styles.button}>
+            <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
+                Back
             </Text>
         </TouchableOpacity>
     </SafeAreaView> 
