@@ -6,28 +6,8 @@ import * as SecureStore from "expo-secure-store";
 
 //Secure Storage for JWTs: If promise rejects on token storage then the app would be quite unusable due to security, so send an alert.
 //--------------------------------------------------------------------------------------------------------------------------------------
-/**
- * Saves the value to the ios keychain or Android keystore
- * @param {string} key => the key you want to save the value for
- * @param {any} value => the value you want to encrypt
- * @return => A promise that will reject if value cannot be stored on the device.
- */
 ///SecureStore.setItemAsync(key, value);
-
-/**
- * Fetches the value from the keychain/keystore for the specified key
- * @param {string} key => the key you set for the value
- * @returns {any} => A promise that resolves to the previously stored value, or null if there is no entry for the given key.
- * The promise will reject if an error occurred while retrieving the value.
- */
 //SecureStore.getItemAsync(key);
-
-/**
- * Saves the value to the ios keychain or Android keystore
- * @param {string} key => the key you want to save the value for
- * @param {any} value => the value you want to encrypt
- * @return => A promise that will reject if value cannot be stored on the device.
- */
 //SecureStore.deleteItemAsync(key);
 //--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -83,9 +63,6 @@ function checkLogin(username, password){
     } else {
         //If all tests pass, send to server.
         sendLogin(username, password);
-
-        //TODO: Handle Response. ex. Success or Failure.
-
     }
 }
 
@@ -116,8 +93,27 @@ async function sendLogin(username, password){
             },
             body: JSON.stringify(accountDetails)
         });
-        let resObj = await response.json();
-        console.log (resObj);
+        let payload = await response.json();
+        console.log (payload);
+
+        if(payload["status"]==null){
+            sendAlertOK("Server Response Error");
+            return;
+        }
+
+        if(payload["status"]!="success"){
+            sendAlertOK(payload["status"], payload["message"]);
+            return;
+        }
+
+        //Find the auth token and refresh, store them in SecureStore
+
+        SecureStore.setItemAsync("token", payload["token"]);
+        SecureStore.setItemAsync("refresh", payload["refresh"]);
+
+        //Secure Store Testing
+        // console.log("Recieved Token: " + payload["token"]);
+        // console.log("Secure Stored Token: " + (await SecureStore.getItemAsync("token")));
     }
     catch (err){
         console.error(err);
