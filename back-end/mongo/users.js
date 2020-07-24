@@ -17,6 +17,12 @@ class Users {
         let user = await this.collection.find({username}).toArray();
         return user;
     }
+    async addRefresh(user){
+        let val = await this.collection.updateOne({'username': user['username']},
+        { $set: {
+                'refresh': user['refresh']
+        }});
+    }
 }
 
 module.exports = Users

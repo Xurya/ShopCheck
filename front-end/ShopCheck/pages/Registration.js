@@ -128,14 +128,14 @@ function sendAlertOK(title, msg){
 }
 
 async function sendRegistration(username, email, password,type){
-    let accountDetails = {username,email,password,salt:'placeholder',type}
+    let accountDetails = {username,email,password,type}
 
     //TODO:Configure w/ backend
     //replace with 157.245.243.174 on deploy to droplet
     //replace with LAN IP of hosting computer if using expo app on device
     //replace with 10.0.2.2 if using AVD
     try{ 
-        let response = await fetch("http://10.0.2.2:5000/account/register", {
+        let response = await fetch("http://192.168.0.126:5000/account/register", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
