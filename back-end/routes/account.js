@@ -147,6 +147,11 @@ router.post('/login', async (req,res)=>{
     res.json({status:'success', token: token, refresh: refresh, message:`Logged into ${query_resp[0].username}.`})
 });
 
+router.post('/home', async (req,res)=>{
+    
+
+});
+
 function countJson(payload){
     //Object.length is not applicable for JSON, so manually count.
     let count=0;

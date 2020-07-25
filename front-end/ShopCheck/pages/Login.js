@@ -42,7 +42,7 @@ export default function Login({navigation}){
                 secureTextEntry={true}
                 style={{borderBottomWidth:1, padding:0}}/>
         </View> 
-        <TouchableOpacity onPress={()=>checkLogin(username, password)} style={styles.button}>
+        <TouchableOpacity onPress={()=>checkLogin(username, password,navigation)} style={styles.button}>
             <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
                 Login
             </Text>
@@ -55,7 +55,7 @@ export default function Login({navigation}){
     </SafeAreaView> 
 }
 
-function checkLogin(username, password){
+function checkLogin(username, password,navigation){
     if (username == '' || password == '') { 
         sendAlertOK("Invalid Form", "Please fill out all required fields");
     } else if (username.length<6) {
@@ -67,7 +67,7 @@ function checkLogin(username, password){
         sendAlertOK("Invalid Password", "Password cannot contain tags (less than or greater than signs)");
     } else {
         //If all tests pass, send to server.
-        sendLogin(username, password);
+        sendLogin(username, password,navigation);
     }
 }
 
@@ -82,7 +82,7 @@ function sendAlertOK(title, msg){
     );
 }
 
-async function sendLogin(username, password){
+async function sendLogin(username, password,navigation){
     let accountDetails = {username,password};
 
     //TODO:Configure w/ backend
@@ -90,7 +90,7 @@ async function sendLogin(username, password){
     //replace with LAN IP of hosting computer if using expo app on device
     //replace with 10.0.2.2 if using AVD
    try {
-       let response = await fetch("http://192.168.0.126:5000/account/login", {
+       let response = await fetch("http://10.0.2.2:5000/account/login", {
            method: 'POST',
            headers: {
                'Accept': 'application/json',
@@ -106,8 +106,9 @@ async function sendLogin(username, password){
             return;
         }
 
-        if(payload["status"]!="success"){
-            sendAlertOK(payload["status"], payload["message"]);
+        if(payload["status"]=="success"){
+            sendAlertOK('Success!', payload["message"]);
+            navigation.push('Home', {'token':payload['token'], 'refresh':payload['refresh']});
             return;
         }
 
