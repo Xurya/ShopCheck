@@ -148,8 +148,53 @@ router.post('/login', async (req,res)=>{
 });
 
 router.post('/home', async (req,res)=>{
-    
-
+    let secret = await mongo.Configs.getSecret();
+    //console.log(req.body.token);
+    try {
+        let body = jwt.verify(req.body.token, secret);
+        let user_data = await mongo.Users.getUser(body.id);
+        if (!user_data.length) {
+            res.json({status:'fail',message:'Session Verification Failed.'});
+        }
+        else{
+            let entry = user_data[0];
+            res.json({status:'success', username: entry.username, email: entry.email, accountType: entry.accountType});
+        }
+    }
+    catch (err){
+        if (err instanceof jwt.TokenExpiredError){
+            //Check refresh token for validity then return new token with user entry.
+            try{
+                let body = jwt.verify(req.body.refresh,secret);
+                let user_data = await mongo.Users.getUser(body.id);
+                if (!user_data.length) {
+                    res.json({status:'fail',message:'Session Verification Failed.'});
+                }
+                else{
+                    // using salt from user-entry, take hashed refresh and compare to given refresh after hashing. 
+                    let entry = user_data[0];
+                    if (crypto.pbkdf2Sync(req.body.refresh, entry.salt, 100000, 64, 'sha512').toString() != entry.refresh.toString()){
+                        console.log('Refresh Token Invalid');
+                        res.json({status:'fail',message:'Session Verification Failed.'})
+                    }
+                    else{
+                        // return object with new token generated for front-end.
+                        console.log('New Token Generated after verifying refresh token.');
+                        let newToken = jwt.sign({id:body.id},secret,{expiresIn:900});
+                        res.json({status:'success', username: entry.username, email: entry.email, accountType: entry.accountType, newToken});
+                    }
+                }
+            }
+            catch (error){
+                console.error(error);
+                res.json({status:'fail',message:'Session Verification Failed.'})
+            }
+        }
+        else{
+            console.error(err);
+            res.json({status:'fail',message:'Session Verification Failed.'})
+        }
+    }
 });
 
 function countJson(payload){

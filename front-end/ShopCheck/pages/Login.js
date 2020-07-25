@@ -14,6 +14,7 @@ import * as SecureStore from "expo-secure-store";
 export default function Login({navigation}){
     const [username,setUsername] = useState('');
     const [password,setPassword] = useState('');
+    const myTextInput = React.createRef();
 
     return <SafeAreaView style={styles.container}>
         <Text style={{fontSize:24}}>
@@ -36,13 +37,21 @@ export default function Login({navigation}){
                 Password:
             </Text>
             <TextInput 
+                ref={myTextInput}
                 placeholder="Password" 
                 onChangeText={text => {setPassword(text)}} 
                 placeholderTextColor='white' 
                 secureTextEntry={true}
                 style={{borderBottomWidth:1, padding:0}}/>
         </View> 
-        <TouchableOpacity onPress={()=>checkLogin(username, password,navigation)} style={styles.button}>
+        <TouchableOpacity 
+            onPress={()=>{
+                checkLogin(username, password,navigation);
+                myTextInput.current.clear();
+                setPassword('');
+                }} 
+            style={styles.button}>
+
             <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
                 Login
             </Text>
@@ -105,17 +114,23 @@ async function sendLogin(username, password,navigation){
             sendAlertOK("Server Response Error");
             return;
         }
+        
+        if(payload['status']=='fail'){
+            sendAlertOK("Invalid Password", "User credentials failed, please try again.");
+            return;
+        }
 
         if(payload["status"]=="success"){
-            sendAlertOK('Success!', payload["message"]);
-            navigation.push('Home', {'token':payload['token'], 'refresh':payload['refresh']});
+            //sendAlertOK('Success!', payload["message"]);
+            navigation.navigate('Home', {'token':payload['token'], 'refresh':payload['refresh']});
+            
+            SecureStore.setItemAsync("token", payload["token"]);
+            SecureStore.setItemAsync("refresh", payload["refresh"]);
             return;
         }
 
         //Find the auth token and refresh, store them in SecureStore
 
-        SecureStore.setItemAsync("token", payload["token"]);
-        SecureStore.setItemAsync("refresh", payload["refresh"]);
 
         //Secure Store Testing
         // console.log("Recieved Token: " + payload["token"]);
