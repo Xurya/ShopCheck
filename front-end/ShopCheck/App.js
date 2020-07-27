@@ -5,14 +5,27 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'; //This is to support react-navigation wrapper
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { 
+  useFonts,
+  NunitoSans_400Regular,
+  NunitoSans_400Regular_Italic
+} from '@expo-google-fonts/nunito-sans'
+
+
 import Registration from './pages/Registration.js';
 import Landing from './pages/Landing.js';
 import Login from './pages/Login.js';
 import Home from './pages/Home.js'
+import { AppLoading } from 'expo';
 
 const Stack = createStackNavigator(); 
 
 export default function App() {
+  let [fontsLoaded] = useFonts({NunitoSans_400Regular,});
+
+  if(!fontsLoaded){
+    return <AppLoading />;
+  }
 
   return (
     <SafeAreaProvider>

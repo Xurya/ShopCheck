@@ -8,13 +8,13 @@ export default function Landing({navigation}){
             <Image style={styles.img} source={require('../assets/logov2.png')}/>
             <View style={{flexDirection:'row'}}>
               <TouchableOpacity onPress={()=>navigation.navigate("Login")} style={styles.button}>
-                <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
+                <Text style={styles.text}>
                   Login
                 </Text>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={()=>navigation.navigate("Registration")} style={styles.button}>
-                  <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
+                  <Text style={styles.text}>
                     Register
                   </Text>
               </TouchableOpacity>
@@ -25,6 +25,12 @@ export default function Landing({navigation}){
 }
 
 const styles = StyleSheet.create({ 
+    text:{
+      fontWeight:'bold', 
+      color:'white',
+      fontFamily:'NunitoSans_400Regular',
+      fontSize:15
+    },
     container: {
       flex: 1,
       alignItems: 'center',

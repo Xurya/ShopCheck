@@ -66,7 +66,7 @@ export default function Registration({navigation}){
                     onPress={()=>{setType('Owner'); setOwner('#7c41b0'); setBuyer('#af5cf7');}} 
                     style={[options,{backgroundColor:owner}]}>
 
-                    <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
+                    <Text style={styles.text}>
                         Owner
                     </Text>
 
@@ -76,7 +76,7 @@ export default function Registration({navigation}){
                     onPress={()=>{setType('Buyer'); setOwner('#af5cf7'); setBuyer('#7c41b0');}} 
                     style={[options,{backgroundColor:buyer}]}>
 
-                    <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
+                    <Text style={styles.text}>
                         Buyer
                     </Text>
 
@@ -85,13 +85,13 @@ export default function Registration({navigation}){
 
 
             <TouchableOpacity onPress={()=>checkRegistration(username, email, password,type,navigation)} style={styles.button}>
-                <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
+                <Text style={{fontWeight:'bold', color:'white', fontFamily:'NunitoSans_400Regular', fontSize:15}}>
                     Register
                 </Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={()=>navigation.navigate("Landing")} style={styles.button}>
-                <Text style={{fontWeight:'bold', color:'white', fontFamily:'sans-serif-thin', fontSize:15}}>
+                <Text style={{fontWeight:'bold', color:'white', fontFamily:'NunitoSans_400Regular', fontSize:15}}>
                     Back
                 </Text>
             </TouchableOpacity>
@@ -180,6 +180,12 @@ function sendAlertLogin(title, msg){
 }
 
 const styles = StyleSheet.create({ 
+    text:{
+        fontWeight:'bold', 
+        color:'white',
+        fontFamily:'NunitoSans_400Regular',
+        fontSize:15
+    },
     container:{
         flex: 1,
         alignItems: 'center',
