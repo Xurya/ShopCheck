@@ -1,6 +1,7 @@
 const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://user_02:qmZKKxnWhDTFt8rY@shopcheck.3ltnq.mongodb.net/ShopCheck?retryWrites=true&w=majority";
 const Users = require ('./users');
+const Shops = require('./shop');
 const Configs = require ('./config.js');
 
 class MongoU {
@@ -13,6 +14,7 @@ class MongoU {
         this.db = this.client.db('ShopCheck');
         this.Users = new Users(this.db);
         this.Configs = new Configs(this.db);
+        this.Shops = new Shops(this.db);
         await this.Configs.init();
     }
 }
