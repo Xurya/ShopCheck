@@ -166,19 +166,6 @@ async function sendRegistration(username, email, password,type,navigation){
     }
 }
 
-//Currently broken.
-function sendAlertLogin(title, msg){
-    const navigation = useNavigation();
-    Alert.alert(
-        title,
-        msg,
-        [
-        { text: 'OK', onPress: () => navigation.navigate("Login")}
-        ],
-        { cancelable: false }
-    );
-}
-
 const styles = StyleSheet.create({ 
     text:{
         fontWeight:'bold', 

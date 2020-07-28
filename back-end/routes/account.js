@@ -85,7 +85,7 @@ router.post('/refresh', async (req,res)=>{
             message: 'Invalid Refresh'
         })
     }
-})
+});
 
 
 router.post('/login', async (req,res)=>{
