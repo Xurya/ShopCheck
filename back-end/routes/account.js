@@ -220,5 +220,57 @@ function checkOverlap(payload){
     return "success";
 }
 
+async function accessToken(token,refresh){
+    let secret = await mongo.Configs.getSecret();
 
-module.exports = router;
+    try {
+        let body = jwt.verify(token, secret);
+        let user_data = await mongo.Users.getUser(body.id);
+        if (!user_data.length) {
+            return {status:'fail'};
+        }
+        else{
+            let entry = user_data[0];
+            return {status:'success', username: entry.username, id: entry._id};
+        }
+    }
+    catch (err){
+        if (err instanceof jwt.TokenExpiredError){
+            //Check refresh token for validity then return new token with user entry.
+            try{
+                let body = jwt.verify(refresh,secret);
+                let user_data = await mongo.Users.getUser(body.id);
+                if (!user_data.length) {
+                    return {status:'fail'};
+                }
+                else{
+                    // using salt from user-entry, take hashed refresh and compare to given refresh after hashing. 
+                    let entry = user_data[0];
+                    if (crypto.pbkdf2Sync(req.body.refresh, entry.salt, 100000, 64, 'sha512').toString() != entry.refresh.toString()){
+                        console.log('Refresh Token Invalid');
+                        return {status:'fail'};
+                    }
+                    else{
+                        // return object with new token generated for front-end.
+                        console.log('New Token Generated after verifying refresh token.');
+                        let newToken = jwt.sign({id:body.id},secret,{expiresIn:900});
+                        return {status:'success', username: entry.username, id: entry._id, newToken};
+                    }
+                }
+            }
+            catch (error){
+                return ({status:'fail'});
+            }
+        }
+        else{
+            console.error(err);
+            return {status:'fail'}
+        }
+    }
+}
+
+
+module.exports = {
+    router,
+    accessToken:accessToken
+};

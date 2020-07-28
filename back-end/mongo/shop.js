@@ -21,10 +21,10 @@ class Shop {
         let shops = await this.collection.find({'status':true});
         return shops;
     }
-    async updateShop(shop_id, changeObj){
+    async updateShop(shop_id, username, changeObj){
         let changes = {};
         changes[changeObj['field']] = changeObj['value'];
-        let val = await this.collection.updateOne({'_id':shop_id},{$set:changes},{upsert:false});
+        let val = await this.collection.updateOne({'_id':shop_id, 'owner':username},{$set:changes},{upsert:false});
         return val;
     }
 }
