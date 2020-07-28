@@ -7,7 +7,7 @@ class Order {
     async addOrder(order){
         let val = await this.collection.insertOne(
             {
-                'shopID:':order['shopID'],
+                'shopID':order['shopID'],
                 'username':order['username'],
                 'status':false,
                 'items': order["items"]

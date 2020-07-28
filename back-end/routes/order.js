@@ -1,6 +1,7 @@
 const Router = require('express-promise-router');
-const { Console } = require('console');
-const router = new Router();
+const jwt = require("jsonwebtoken");
+const mongo = require('../mongo/mongo');
+const router = new Router()
 
 router.post('/add', async (req,res)=>{
     console.log("Add Order Request Recieved");
@@ -8,19 +9,53 @@ router.post('/add', async (req,res)=>{
     let payload = req.body;
 
     //Verify Auth Token
+    if(payload['token'] != null){
+        let secret = await mongo.Configs.getSecret();
+        let auth = jwt.verify(payload['token'], secret, function (err, load){
+            if (err) {
+                return null;
+            }
+            return load["id"];
+        });
 
-    //Add new order to mongo/order.js and respond with success or failure
+        //Checks for integrity
+        if(payload["username"] == auth){
+            //Payload contains all necessary information. Note that this can always be more secure.
+            let _id = await mongo.Order.addOrder(payload);
+            res.json({status:'success', message:"Order Added!", _id:_id});
+            return;
+        }
+    }
+
+    res.json({status:'failed', message:"Authentication Failed"});
 });
 
 
 router.post('/query', async (req,res)=>{
-    console.log("Query Order Request Recieved");
+    console.log("Query Orders Request Recieved");
 
     let payload = req.body;
 
     //Verify Auth Token
+    if(payload['token'] != null){
+        let secret = await mongo.Configs.getSecret();
+        let auth = jwt.verify(payload['token'], secret, function (err, load){
+            if (err) {
+                return null;
+            }
+            return load["id"];
+        });
 
-    //Send query to mongo/order.js and respond with content
+        //Checks for integrity
+        if(payload["username"] == auth){
+            //Payload contains all necessary information. Note that this can always be more secure.
+            let orders = await mongo.Order.getOrders(payload['query']);
+            res.json({status:'success', message:"Order Query Success!", orders:orders});
+            return;
+        }
+    }
+
+    res.json({status:'failed', message:"Authentication Failed"});
 });
 
 
@@ -30,8 +65,25 @@ router.post('/get', async (req,res)=>{
     let payload = req.body;
 
     //Verify Auth Token
+    if(payload['token'] != null){
+        let secret = await mongo.Configs.getSecret();
+        let auth = jwt.verify(payload['token'], secret, function (err, load){
+            if (err) {
+                return null;
+            }
+            return load["id"];
+        });
 
-    //Send username to mongo/order.js and respond with content
+        //Checks for integrity
+        if(payload["username"] == auth){
+            //Payload contains all necessary information. Note that this can always be more secure.
+            let orders = await mongo.Order.getAllOrders(payload['username']);
+            res.json({status:'success', message:"Order Query Success!", orders:orders});
+            return;
+        }
+    }
+
+    res.json({status:'failed', message:"Authentication Failed"});
 });
 
 router.post('/update', async (req,res)=>{
@@ -40,8 +92,25 @@ router.post('/update', async (req,res)=>{
     let payload = req.body;
 
     //Verify Auth Token
+    if(payload['token'] != null){
+        let secret = await mongo.Configs.getSecret();
+        let auth = jwt.verify(payload['token'], secret, function (err, load){
+            if (err) {
+                return null;
+            }
+            return load["id"];
+        });
 
-    //Update database using mongo/order.js and respond with success/failure
+        //Checks for integrity
+        if(payload["username"] == auth){
+            //Payload contains all necessary information. Note that this can always be more secure.
+            let orders = await mongo.Order.updateOrder(payload["_id"], payload);
+            res.json({status:'success', message:"Order Update Success!"});
+            return;
+        }
+    }
+
+    res.json({status:'failed', message:"Authentication Failed"});
 });
 
 module.exports = router;
