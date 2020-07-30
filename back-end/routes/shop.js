@@ -6,6 +6,7 @@ const router = new Router();
 router.post('/addShop', async (req,res) =>{
     let payload = req.body
     let verify = await accessToken(payload.token,payload.refresh);
+    console.log(verify);
     if (verify.status == 'fail') res.json({status: 'fail', message: 'Session Verification Failed'});
     else {
         let value = await mongo.Shops.addShop({

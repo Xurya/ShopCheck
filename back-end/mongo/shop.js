@@ -5,8 +5,8 @@ class Shop {
     async addShop(shop){
         let val = await this.collection.insertOne(
             {
-                'owner':shop['username'],
-                'ownerID':shop['id'],
+                'owner':shop['owner'],
+                'ownerID':shop['ownerID'],
                 'name': shop['name'],
                 'status':false,
                 'inventory': []
