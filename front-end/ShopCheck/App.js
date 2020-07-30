@@ -16,6 +16,7 @@ import Registration from './pages/Registration.js';
 import Landing from './pages/Landing.js';
 import Login from './pages/Login.js';
 import Home from './pages/Home.js'
+import CreateShop from './pages/CreateShop.js';
 import OwnerManageShops from './pages/Owner-Manage-Shops.js';
 import OwnerCheckOrders from './pages/Owner-Check-Orders.js';
 import BuyerMakeOrders from './pages/Buyer-Make-Orders.js';
@@ -46,6 +47,7 @@ export default function App() {
           <Stack.Screen name="OwnerCheckOrders" component={OwnerCheckOrders} options={{headerShown:false}}/>
           <Stack.Screen name="BuyerMakeOrders" component={OwnerManageShops} options={{headerShown:false}}/>
           <Stack.Screen name="BuyerCheckOrders" component={OwnerCheckOrders} options={{headerShown:false}}/>
+          <Stack.Screen name="CreateShop" component={CreateShop} options={{headerShown:false}}/>
           <Stack.Screen name="ShopList" component={ShopList} options={{headerShown:false}}/>
         </Stack.Navigator>
       </NavigationContainer>
