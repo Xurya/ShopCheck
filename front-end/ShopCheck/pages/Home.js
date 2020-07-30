@@ -1,25 +1,33 @@
 import React, { useState, Component } from 'react';
 import { Alert, Text, StyleSheet, TextInput, View, TouchableOpacity, Button} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context'; //This is to support react-navigation wrapper
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationRouteContext } from '@react-navigation/native';
 
 export default class Home extends Component{
     
     constructor(props){
         super(props);
-        this.state = {
-            token: props.route.params.token,
-            refresh: props.route.params.refresh,
-            user: null
+        console.log(props);
+        if(props.route.params){
+            this.state = {
+                token: props.route.params.token,
+                refresh: props.route.params.refresh,
+                user: null,
+            }
+        }else{
+            this.state = {
+                token: '',
+                refresh: '',
+                user: null,
+            }
         }
     }
     // Retrieve User Data by Token
     componentDidMount(){
-
         // If temporary token is invalid, generate new one with refresh token.
         // If refresh token also invalid, notify user of invalid session --> navigate to login.
         if (!this.state.user){
-            fetch("http://10.0.2.2:5000/account/home", {
+            fetch("http://192.168.0.126:5000/account/home", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -79,6 +87,7 @@ export default class Home extends Component{
                 )
                 
             }
+        return null;
     }
 }
 

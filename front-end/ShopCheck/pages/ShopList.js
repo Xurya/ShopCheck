@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Component } from 'react';
 import { Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context'; //This is to support react-navigation wrapper
@@ -8,17 +8,17 @@ export default class Home extends Component{
         super(props);
         this.state = {
             token: props.route.params.token,
-            data: null,
+            refresh: props.route.params.refresh,
+            shops: null,
             user: props.route.params.user
         }
     }
-    // Retrieve User Data by Token
+    // Retrieve Shop Data
     componentDidMount(){
-
         // If temporary token is invalid, generate new one with refresh token.
         // If refresh token also invalid, notify user of invalid session --> navigate to login.
-        if (!this.state.data){
-            fetch("http://10.0.2.2:5000/", {
+        if (this.state.shops){
+            fetch("http://192.168.0.126:5000/shop/getAllShops", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -38,7 +38,7 @@ export default class Home extends Component{
                             this.props.navigation.navigate('Landing');
                         }
                         else{
-                            this.setState((state,props)=>{return {user : body}});
+                            this.setState((state,props)=>{return {shops: body["shops"]}});
                         }
                     })
                 }
@@ -54,9 +54,17 @@ export default class Home extends Component{
                         Shop List
                     </Text>
     
-                    <FlatList>
-                        
-                    </FlatList>
+                    <FlatList
+                        data={this.state.arrayHolder}
+                        width = "100%"
+                        renderItem={({item}) => <ListItem title={item.name} />} 
+                    />
+
+                    <TouchableOpacity onPress={()=>navigation.navigate("Home")} style={styles.button}>
+                        <Text style={styles.text}>
+                            Go Home
+                        </Text>
+                    </TouchableOpacity>
             </SafeAreaView>
         );
     }

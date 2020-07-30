@@ -20,7 +20,8 @@ import OwnerManageShops from './pages/Owner-Manage-Shops.js';
 import OwnerCheckOrders from './pages/Owner-Check-Orders.js';
 import BuyerMakeOrders from './pages/Buyer-Make-Orders.js';
 import BuyerCheckOrders from './pages/Buyer-Check-Orders.js';
-
+import ShopList from './pages/ShopList.js';
+import OrderList from './pages/OrderList.js';
 
 import { AppLoading } from 'expo';
 
@@ -45,7 +46,7 @@ export default function App() {
           <Stack.Screen name="OwnerCheckOrders" component={OwnerCheckOrders} options={{headerShown:false}}/>
           <Stack.Screen name="BuyerMakeOrders" component={OwnerManageShops} options={{headerShown:false}}/>
           <Stack.Screen name="BuyerCheckOrders" component={OwnerCheckOrders} options={{headerShown:false}}/>
-
+          <Stack.Screen name="ShopList" component={ShopList} options={{headerShown:false}}/>
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
