@@ -18,7 +18,7 @@ class Shop {
         return shop;
     }
     async getAllShops(){
-        let shops = await this.collection.find({'status':true});
+        let shops = await this.collection.find({'status':true}).toArray();
         return shops;
     }
     async updateShop(shop_id, username, changeObj){

@@ -16,8 +16,8 @@ export default class Home extends Component{
             }
         }else{
             this.state = {
-                token: '',
-                refresh: '',
+                token: null,
+                refresh: null,
                 user: null,
             }
         }

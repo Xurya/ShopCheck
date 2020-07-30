@@ -1,5 +1,5 @@
 import React, { useState, Component } from 'react';
-import { Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import { Text, ListItem, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context'; //This is to support react-navigation wrapper
 
@@ -17,8 +17,8 @@ export default class Home extends Component{
     componentDidMount(){
         // If temporary token is invalid, generate new one with refresh token.
         // If refresh token also invalid, notify user of invalid session --> navigate to login.
-        if (this.state.shops){
-            fetch("http://192.168.0.126:5000/shop/getAllShops", {
+        if (!this.state.shops){
+            fetch("http://192.168.0.126:5000/shops/getAllShops", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -48,33 +48,33 @@ export default class Home extends Component{
     
     // Render separate Owner and Buyer homepage
     render(){
-        if (!this.state.shops){
-            return (
-                <SafeAreaView style={styles.container}>
-                        <Text style={{fontSize:24}}>
-                            Shop List
-                        </Text>
+        // if (this.state.shops){
+        //     return (
+        //         <SafeAreaView style={styles.container}>
+        //                 <Text style={{fontSize:24}}>
+        //                     Shop List
+        //                 </Text>
         
-                        <FlatList
-                            data={this.state.arrayHolder}
-                            width = "100%"
-                            renderItem={({item}) => <ListItem title={item.name} />} 
-                        />
+        //                 <FlatList
+        //                     data={this.state.shops}
+        //                     width = "100%"
+        //                     renderItem={({item}) => <ListItem title={item.name} />} 
+        //                 />
 
-                        <TouchableOpacity onPress={()=>navigation.navigate("Home")} style={styles.button}>
-                            <Text style={styles.text}>
-                                Go Home
-                            </Text>
-                        </TouchableOpacity>
-                </SafeAreaView>
-            );
-        } else  {
-            return(
-                <SafeAreaView style={styles.container}>
+        //                 <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home")} style={styles.button}>
+        //                     <Text style={styles.text}>
+        //                         Go Home
+        //                     </Text>
+        //                 </TouchableOpacity>
+        //         </SafeAreaView>
+        //     );
+        // } else  {
+        //     return(
+        //         <SafeAreaView style={styles.container}>
                     
-                </SafeAreaView>
-            );
-        }
+        //         </SafeAreaView>
+        //     );
+        // }
     }
 }
 

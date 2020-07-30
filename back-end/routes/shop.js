@@ -37,7 +37,7 @@ router.post('/getAllShops', async (req,res)=>{
     let verify = await accessToken(payload.token,payload.refresh);
     if (verify.status == 'fail') res.json({status: 'fail', message: 'Session Verification Failed'});
     else {
-        let value = await mongo.Shops.getAllShops;
+        let value = await mongo.Shops.getAllShops();
         res.json({status:'success', message: 'All open shops returned', shops: value, newToken: verify.newToken});
     }
 });
