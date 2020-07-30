@@ -24,21 +24,22 @@ export default class Home extends Component{
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({token:this.state.token, refresh:this.state.refresh})}).then((res,err)=>{
-                    if (err) console.error(err);
-                    else {
-                        res.json().then((body,err)=>{
-                            console.log(body);
-                            if (body['newToken']){
-                                this.setState((state,props)=>{return {token : body['newToken']}});
-                            }
-                            if (body['status'] == 'fail'){
-                                console.log('Session Expired: Verification Failed');
-                                this.props.navigation.navigate('Landing');
-                            }
-                            else{
-                                this.setState((state,props)=>{return {user : body}});
-                            }
+                body: JSON.stringify({token:this.state.token, refresh:this.state.refresh})
+            }).then((res,err)=>{
+                if (err) console.error(err);
+                else {
+                    res.json().then((body,err)=>{
+                        console.log(body);
+                        if (body['newToken']){
+                            this.setState((state,props)=>{return {token : body['newToken']}});
+                        }
+                        if (body['status'] == 'fail'){
+                            console.log('Session Expired: Verification Failed');
+                            this.props.navigation.navigate('Landing');
+                        }
+                        else{
+                            this.setState((state,props)=>{return {user : body}});
+                        }
                     })
                 }
             });
@@ -58,6 +59,8 @@ export default class Home extends Component{
                 return(
                     <SafeAreaView style={styles.container}>
                         <Text> Buyer Homepage </Text>
+                        <Button title="Shop List" onPress={()=> this.props.navigation.navigate('ShopList',{token:this.state.token, user: this.state.user})}></Button>
+                        <Button title="Orders" onPress={()=> this.props.navigation.navigate('OrderList',{token:this.state.token, user: this.state.user})}></Button>
                         <Button title = 'Log out' onPress={()=> this.props.navigation.navigate('Login',{token:this.state.token,refresh:this.state.refresh})}></Button>
                     </SafeAreaView>
                 );
