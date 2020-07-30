@@ -48,25 +48,33 @@ export default class Home extends Component{
     
     // Render separate Owner and Buyer homepage
     render(){
-        return (
-            <SafeAreaView style={styles.container}>
-                    <Text style={{fontSize:24}}>
-                        Shop List
-                    </Text>
-    
-                    <FlatList
-                        data={this.state.arrayHolder}
-                        width = "100%"
-                        renderItem={({item}) => <ListItem title={item.name} />} 
-                    />
-
-                    <TouchableOpacity onPress={()=>navigation.navigate("Home")} style={styles.button}>
-                        <Text style={styles.text}>
-                            Go Home
+        if (!this.state.shops){
+            return (
+                <SafeAreaView style={styles.container}>
+                        <Text style={{fontSize:24}}>
+                            Shop List
                         </Text>
-                    </TouchableOpacity>
-            </SafeAreaView>
-        );
+        
+                        <FlatList
+                            data={this.state.arrayHolder}
+                            width = "100%"
+                            renderItem={({item}) => <ListItem title={item.name} />} 
+                        />
+
+                        <TouchableOpacity onPress={()=>navigation.navigate("Home")} style={styles.button}>
+                            <Text style={styles.text}>
+                                Go Home
+                            </Text>
+                        </TouchableOpacity>
+                </SafeAreaView>
+            );
+        } else  {
+            return(
+                <SafeAreaView style={styles.container}>
+                    
+                </SafeAreaView>
+            );
+        }
     }
 }
 
