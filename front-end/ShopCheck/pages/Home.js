@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'; //This is to supp
 import { useNavigation } from '@react-navigation/native';
 
 export default class Home extends Component{
+    
     constructor(props){
         super(props);
         this.state = {
@@ -58,17 +59,24 @@ export default class Home extends Component{
                 return(
                     <SafeAreaView style={styles.container}>
                         <Text> Buyer Homepage </Text>
+                        <Button title = 'Make a New Order' onPress={()=> this.props.navigation.navigate('BuyerMakeOrders')}></Button>
+                        <Button title = 'Check My Orders' onPress={()=> this.props.navigation.navigate('BuyerCheckOrders')}></Button>
                         <Button title = 'Log out' onPress={()=> this.props.navigation.navigate('Login',{token:this.state.token,refresh:this.state.refresh})}></Button>
                     </SafeAreaView>
                 );
+              
             }
             else if (this.state.user.accountType == 'Owner'){
+                
                 return(
                     <SafeAreaView style={styles.container}>
                         <Text> Owner Homepage </Text>
+                        <Button title = 'Manage Shops' onPress={()=> this.props.navigation.navigate('OwnerManageShops')}></Button>
+                        <Button title = 'Check Orders' onPress={()=> this.props.navigation.navigate('OwnerCheckOrders')}></Button>
                         <Button title = 'Log out' onPress={()=> this.props.navigation.navigate('Login',{token:this.state.token,refresh:this.state.refresh})}></Button>
                     </SafeAreaView>
                 )
+                
             }
     }
 }
