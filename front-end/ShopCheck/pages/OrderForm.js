@@ -104,16 +104,16 @@ export default class OrderForm extends Component{
     if(this.state.arr && this.state.shop){
       return(
         <SafeAreaView style={styles.container}>
-          <Text>{this.state.shopname}</Text>
+          <Text style={{fontSize:24, marginVertical:20}}>{this.state.shopname}</Text>
           <FlatList
             data={this.state.shop.inventory}
             width = "100%"
             renderItem={({item, index}) => 
-              <View style={{flexDirection:'row', alignItems:'center'}}>
-                <Text style={{margin:7}}>
-                  {item}
+              <View style={{marginHorizontal:20, marginVertical:10, flexDirection:'row', alignItems:'center'}}>
+                <Text style={{flex:1}}>
+                   {item}
                 </Text>
-                <TextInput 
+                <TextInput style={{marginLeft:"auto"}}
                   placeholder="0" 
                   onChangeText={ text =>
                     this.setState(
