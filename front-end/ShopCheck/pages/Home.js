@@ -20,8 +20,7 @@ export default class Home extends Component{
         // If temporary token is invalid, generate new one with refresh token.
         // If refresh token also invalid, notify user of invalid session --> navigate to login.
         //192.168.0.126
-        if (!this.state.user){
-            fetch("http://10.0.2.2:5000/account/home", {
+        fetch("http://10.0.2.2:5000/account/home", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -61,6 +60,7 @@ export default class Home extends Component{
                                             else {
                                                 if (body.shops.length == 0) this.setState((state,props)=>{return {shop: 'None'}});
                                                 else this.setState((state,props)=>{return {shop: body.shops[0]}});
+                                                console.log(this.state.shop);
                                             }
                                         })
                                     }
@@ -70,7 +70,6 @@ export default class Home extends Component{
                     })
                 }
             });
-        }
     }
     
     // Render separate Owner and Buyer homepage
@@ -94,9 +93,10 @@ export default class Home extends Component{
             }
             else if (this.state.user.accountType == 'Owner'){
                 if (this.state.shop == 'None'){
+                    this.props.navigation.pop();
                     this.props.navigation.navigate('CreateShop',{token:this.state.token, refresh:this.state.refresh, user: this.state.user});
                 }
-                else if (this.state.shop && this.state.shop.length){
+                else if (this.state.shop){
                     return(
                         <SafeAreaView style={styles.container}>
                             <Text> Owner Homepage </Text>

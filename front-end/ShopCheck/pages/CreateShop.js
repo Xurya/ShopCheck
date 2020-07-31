@@ -34,8 +34,9 @@ export default class Home extends Component{
             let parsed = await ret.json()
 
             if (parsed.status == 'success') {
-                console.log(parsed.message);
+                console.log('Shop created successfully');
                 this.props.navigation.pop();
+                this.props.navigation.navigate('Home', {token: this.state.token, refresh: this.state.refresh});
             }
             else {
                 console.log(parsed.message);
