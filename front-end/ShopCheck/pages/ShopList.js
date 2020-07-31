@@ -58,17 +58,17 @@ export default class ShopList extends Component{
         if(this.state.shops){
             return (
                 <SafeAreaView style={styles.container}>
-                        <Text style={{fontSize:24}}>
+                        <Text style={{fontSize:24, marginTop:30}}>
                             Shop List
                         </Text>
-        
+
                         <FlatList 
                             data={this.state.shops}
                             width = "100%"
                             renderItem={({item, index}) => 
-                                <View>
+                                <View style={{marginHorizontal: 30, marginTop:30}}>
                                     <Button title = {item.name} onPress={()=>this.props.navigation.navigate("OrderForm", {token:this.state.token, refresh:this.state.refresh, user: this.state.user, shop: item.name})}></Button>
-                                    <FlatList
+                                    <FlatList style={{alignItems:'center'}}
                                         data={item.inventory}
                                         width = "100%"
                                         renderItem={({item, index}) => 
