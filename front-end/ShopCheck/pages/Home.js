@@ -21,7 +21,7 @@ export default class Home extends Component{
         // If refresh token also invalid, notify user of invalid session --> navigate to login.
         //192.168.0.126
         if (!this.state.user){
-            fetch("http://10.0.2.2:5000/account/home", {
+            fetch("http://192.168.0.126:5000/account/home", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -86,8 +86,8 @@ export default class Home extends Component{
                 return(
                     <SafeAreaView style={styles.container}>
                         <Text> Buyer Homepage </Text>
-                        <Button title="Shop List" onPress={()=> this.props.navigation.navigate('ShopList',{token:this.state.token, user: this.state.user})}></Button>
-                        <Button title="Orders" onPress={()=> this.props.navigation.navigate('OrderList',{token:this.state.token, user: this.state.user})}></Button>
+                        <Button title="Shop List" onPress={()=> this.props.navigation.navigate('ShopList',{token:this.state.token,refresh:this.state.refresh, user: this.state.user})}></Button>
+                        <Button title="Orders" onPress={()=> this.props.navigation.navigate('OrderList',{token:this.state.token,refresh:this.state.refresh, user: this.state.user})}></Button>
                         <Button title = 'Log out' onPress={()=> this.props.navigation.navigate('Login',{token:this.state.token,refresh:this.state.refresh})}></Button>
                     </SafeAreaView>
                 );

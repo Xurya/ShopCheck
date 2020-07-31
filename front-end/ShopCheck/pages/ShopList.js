@@ -1,9 +1,9 @@
-import React, { useState, Component } from 'react';
-import { Text, ListItem, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import React, {Component } from 'react';
+import { Text, Button, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context'; //This is to support react-navigation wrapper
 
-export default class Home extends Component{
+export default class ShopList extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -12,12 +12,8 @@ export default class Home extends Component{
             shops: null,
             user: props.route.params.user
         }
-    }
-    // Retrieve Shop Data
-    componentDidMount(){
-        // If temporary token is invalid, generate new one with refresh token.
-        // If refresh token also invalid, notify user of invalid session --> navigate to login.
-        if (!this.state.shops){
+
+        this.cancellablePromise = makeCancelable(
             fetch("http://192.168.0.126:5000/shops/getAllShops", {
                 method: 'POST',
                 headers: {
@@ -25,7 +21,15 @@ export default class Home extends Component{
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({token:this.state.token, refresh:this.state.refresh})
-            }).then((res,err)=>{
+            }));
+    }
+    // Retrieve Shop Data
+    componentDidMount(){
+        // If temporary token is invalid, generate new one with refresh token.
+        // If refresh token also invalid, notify user of invalid session --> navigate to login.
+        if (!this.state.shops){
+            this.cancellablePromise.promise
+            .then((res,err)=>{
                 if (err) console.error(err);
                 else {
                     res.json().then((body,err)=>{
@@ -42,41 +46,81 @@ export default class Home extends Component{
                         }
                     })
                 }
-            });
+            })
         }
     }
-    
-    // Render separate Owner and Buyer homepage
-    render(){
-        // if (this.state.shops){
-        //     return (
-        //         <SafeAreaView style={styles.container}>
-        //                 <Text style={{fontSize:24}}>
-        //                     Shop List
-        //                 </Text>
-        
-        //                 <FlatList
-        //                     data={this.state.shops}
-        //                     width = "100%"
-        //                     renderItem={({item}) => <ListItem title={item.name} />} 
-        //                 />
 
-        //                 <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home")} style={styles.button}>
-        //                     <Text style={styles.text}>
-        //                         Go Home
-        //                     </Text>
-        //                 </TouchableOpacity>
-        //         </SafeAreaView>
-        //     );
-        // } else  {
-        //     return(
-        //         <SafeAreaView style={styles.container}>
+    componentWillUnmount(){
+        this.cancellablePromise.cancel();
+    }
+
+    render(){
+        if(this.state.shops){
+            return (
+                <SafeAreaView style={styles.container}>
+                        <Text style={{fontSize:24}}>
+                            Shop List
+                        </Text>
+        
+                        <FlatList 
+                            data={this.state.shops}
+                            width = "100%"
+                            renderItem={({item, index}) => 
+                                <View>
+                                    <Button title = {item.name} onPress={(item)=>this.props.navigation.navigate("OrderForm", {token:this.state.token, refresh:this.state.refresh, user: this.state.user, shop: item})}></Button>
+                                    <FlatList
+                                        data={item.inventory}
+                                        width = "100%"
+                                        renderItem={({item, index}) => 
+                                            <Text>{item}</Text>
+                                        } 
+                                        keyExtractor={(item, index) => index.toString()}
+                                    />
+                                </View>
+                            } 
+                            keyExtractor={(item, index) => index.toString()}
+                        />
+
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home")} style={styles.button}>
+                            <Text style={styles.text}>
+                                Go Home
+                            </Text>
+                        </TouchableOpacity>
+                </SafeAreaView>
+            );
+        } else {
+            return(
+                <SafeAreaView style={styles.container}>
                     
-        //         </SafeAreaView>
-        //     );
-        // }
+                </SafeAreaView>
+            );
+        } 
     }
 }
+
+export function makeCancelable(promise) {
+    let isCanceled = false;
+    const wrappedPromise =
+      new Promise((resolve, reject) => {
+        promise
+          .then(
+            val => (isCanceled
+              ? reject(new Error({ isCanceled })) 
+              : resolve(val))
+          )
+          .catch(
+            error => (isCanceled
+              ? reject(new Error({ isCanceled }))
+              : reject(error))
+          );
+      });
+    return {
+      promise: wrappedPromise,
+      cancel() {
+        isCanceled = true;
+      },
+    };
+  }
 
 const styles = StyleSheet.create({ 
     text:{
