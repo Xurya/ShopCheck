@@ -70,6 +70,7 @@ export default class Home extends Component{
                     })
                 }
             });
+        }
     }
     
     // Render separate Owner and Buyer homepage
