@@ -1,7 +1,8 @@
 import React, { useState, Component } from 'react';
-import { Alert, Text, StyleSheet, TextInput, View, TouchableOpacity, Button} from 'react-native';
+import { Image, Alert, Text, StyleSheet, TextInput, View, TouchableOpacity, Button} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context'; //This is to support react-navigation wrapper
 import { useNavigation, NavigationRouteContext } from '@react-navigation/native';
+ 
 
 export default class Home extends Component{
     
@@ -86,30 +87,33 @@ export default class Home extends Component{
                 return(
                     <SafeAreaView style={styles.container}>
                         <View style = {{flex: 1}}></View>
-                        <Text style={styles.text} > Buyer Homepage </Text>
+                        <Text style={styles.titletext} > Buyer Homepage </Text>
+                        <Image style={styles.img} source={require('../assets/logov2.png')}/>
+                        <View style = {{flex: 1}}></View>
+
 
                         <View style = {{flex: 10}}> 
-                            <Button
-                                title = "Shop List"
-                                variant="primary"
-                                size = "lg"
+                            <TouchableOpacity
                                 onPress={()=> this.props.navigation.navigate('ShopList',{token:this.state.token,refresh:this.state.refresh, user: this.state.user})}
+                                style = {styles.button}
                             >
-                            </Button>
+                            <Text style = {styles.buttontext}>Make an Order</Text>
+                            </TouchableOpacity>
                                                                            
-                            <Button
-                                variant = "outline-primary" 
+                            <TouchableOpacity
                                 onPress={()=> this.props.navigation.navigate('OrderList',{token:this.state.token,refresh:this.state.refresh, user: this.state.user})}
-                                title = "Orders"
+                                style = {styles.button}
                             >
-                            </Button>                         
+                            <Text style = {styles.buttontext}>View Orders</Text>
+                            </TouchableOpacity>                         
                         </View>
+
 
                         <View style = {{flex: 1}}> 
                             <Button
-                                variant = "outline-primary" 
                                 onPress={()=> this.props.navigation.navigate('Login',{token:this.state.token,refresh:this.state.refresh})}
                                 title = "Log Out"    
+                                color = "red"
                             >
                             </Button>
                         </View>
@@ -148,14 +152,40 @@ export default class Home extends Component{
 }
 
 const styles = StyleSheet.create({ 
-    text:{
+    titletext:{
         fontWeight:'bold', 
-        flex: 6,
-        color:'black',
+        flex: 2,
+        color:'#009CFF',
         fontFamily:'NunitoSans_400Regular',
         fontWeight: 'bold',
+
+        fontSize: 35
+    },
+    img : {
+        flex: 3,
+        width : '40%',
+        height : '40%',
+        resizeMode : 'contain',
         
-        fontSize: 30
+    },
+    button:{
+        shadowColor: 'rgba(0,0,0, .1)', // IOS
+        shadowOffset: { height: 1, width: 1 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 1, //IOS
+        elevation: 5, // Android,
+        height:70,
+        width:250,
+        backgroundColor:'#FFFFFF',
+        alignItems:'center',
+        justifyContent:'center',
+        margin: 6,
+        borderRadius:40,
+    },
+    buttontext:{
+        color:'#009CFF',
+        fontFamily:'NunitoSans_400Regular',
+        fontSize: 20
     },
     container:{
         flex: 1,
