@@ -14,7 +14,7 @@ export default class OrderList extends Component{
         }
 
         this.cancellablePromise = makeCancelable(
-            fetch("http://192.168.0.126:5000/order/get", {
+            fetch("http://157.245.243.174:5000/order/get", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -58,36 +58,39 @@ export default class OrderList extends Component{
         if(this.state.orders){
             return (
                 <SafeAreaView style={styles.container}>
-                        <Text style={{fontSize:24}}>
-                            Order List for {this.state.user.username}
+                        <Text style={styles.titletext}>
+                            {this.state.user.username}'s Orders
                         </Text>
         
                         <FlatList 
                             data={this.state.orders}
                             width = "100%"
                             renderItem={({item, index}) =>
-                                <View>
-                                    <Text>
+                                <View style = {styles.ordercontainer}>
+                                    <Text style={styles.text}>
                                         Order Number: {item._id}{"\n"}
                                         Order Complete: {""+item.status}{"\n"}
                                         Order Items:
                                     </Text>
-                                    <FlatList
+                                    <FlatList 
                                         data={item.items}
                                         width = "100%"
                                         renderItem={({item, index}) => 
-                                            <Text>{item}</Text>
+                                            <Text style={styles.text}>        {item}</Text>
                                         } 
                                         keyExtractor={(item, index) => index.toString()}
                                     />
                                 </View>
+
+                                
                             } 
                             keyExtractor={(item, index) => index.toString()}
                         />
+                        
 
                         <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home")} style={styles.button}>
                             <Text style={styles.text}>
-                                Go Home
+                                Back
                             </Text>
                         </TouchableOpacity>
                 </SafeAreaView>
@@ -126,14 +129,29 @@ export function makeCancelable(promise) {
     };
   }
 
-const styles = StyleSheet.create({ 
-    text:{
+const styles = StyleSheet.create({
+    titletext:{
         fontWeight:'bold', 
-        color:'white',
+        //flex: 1,
+        color:'#009CFF',
+        fontFamily:'NunitoSans_900Black',
+        fontWeight: 'bold',
+
+        fontSize: 35
+    }, 
+    text:{
+        margin: 10,
         fontFamily:'NunitoSans_400Regular',
         fontSize:15
     },
-    container:{
+    ordercontainer:{
+        margin: 15,
+        shadowColor: 'rgba(0,0,0, .1)', // IOS
+        shadowOffset: { height: 1, width: 1 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 1, //IOS
+        elevation: 5, // Android,
+        borderRadius:15,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -152,5 +170,11 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       margin: 6,
       borderRadius:20,
+    },
+    container:{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'lightgrey',
     }
 })
