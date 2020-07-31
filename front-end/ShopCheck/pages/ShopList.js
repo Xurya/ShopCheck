@@ -67,7 +67,7 @@ export default class ShopList extends Component{
                             width = "100%"
                             renderItem={({item, index}) => 
                                 <View>
-                                    <Button title = {item.name} onPress={(item)=>this.props.navigation.navigate("OrderForm", {token:this.state.token, refresh:this.state.refresh, user: this.state.user, shop: item})}></Button>
+                                    <Button title = {item.name} onPress={()=>this.props.navigation.navigate("OrderForm", {token:this.state.token, refresh:this.state.refresh, user: this.state.user, shop: item.name})}></Button>
                                     <FlatList
                                         data={item.inventory}
                                         width = "100%"

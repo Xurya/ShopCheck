@@ -19,6 +19,7 @@
     "expo-font": "~8.2.1",
     "expo-secure-store": "^9.0.1",
     "react": "^16.11.0",
+    "react-addons-update": "^15.6.2",
     "react-dom": "16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.0.tar.gz",
     "react-native-elements": "^2.0.4",
