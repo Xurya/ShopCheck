@@ -21,7 +21,7 @@ export default class Home extends Component{
         // If refresh token also invalid, notify user of invalid session --> navigate to login.
         //192.168.0.126
         if (!this.state.user){
-            fetch("http://192.168.0.126:5000/account/home", {
+            fetch("http://157.245.243.174:5000/account/home", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -45,7 +45,7 @@ export default class Home extends Component{
                             this.setState((state,props)=>{return {user : body}});
                             if (body.accountType == 'Owner') {
                                 //Check for shop and insert into state.
-                                fetch("http://10.0.2.2:5000/shops/getShop", {
+                                fetch("http://157.245.243.174:5000/shops/getShop", {
                                     method: 'POST',
                                     headers: {
                                         'Accept': 'application/json',
@@ -85,10 +85,36 @@ export default class Home extends Component{
             else if (this.state.user.accountType == 'Buyer'){
                 return(
                     <SafeAreaView style={styles.container}>
-                        <Text> Buyer Homepage </Text>
-                        <Button title="Shop List" onPress={()=> this.props.navigation.navigate('ShopList',{token:this.state.token,refresh:this.state.refresh, user: this.state.user})}></Button>
-                        <Button title="Orders" onPress={()=> this.props.navigation.navigate('OrderList',{token:this.state.token,refresh:this.state.refresh, user: this.state.user})}></Button>
-                        <Button title = 'Log out' onPress={()=> this.props.navigation.navigate('Login',{token:this.state.token,refresh:this.state.refresh})}></Button>
+                        <View style = {{flex: 1}}></View>
+                        <Text style={styles.text} > Buyer Homepage </Text>
+
+                        <View style = {{flex: 10}}> 
+                            <Button
+                                title = "Shop List"
+                                variant="primary"
+                                size = "lg"
+                                onPress={()=> this.props.navigation.navigate('ShopList',{token:this.state.token,refresh:this.state.refresh, user: this.state.user})}
+                            >
+                            </Button>
+                                                                           
+                            <Button
+                                variant = "outline-primary" 
+                                onPress={()=> this.props.navigation.navigate('OrderList',{token:this.state.token,refresh:this.state.refresh, user: this.state.user})}
+                                title = "Orders"
+                            >
+                            </Button>                         
+                        </View>
+
+                        <View style = {{flex: 1}}> 
+                            <Button
+                                variant = "outline-primary" 
+                                onPress={()=> this.props.navigation.navigate('Login',{token:this.state.token,refresh:this.state.refresh})}
+                                title = "Log Out"    
+                            >
+                            </Button>
+                        </View>
+
+                        
                     </SafeAreaView>
                 );
             }
@@ -100,7 +126,7 @@ export default class Home extends Component{
                     return(
                         <SafeAreaView style={styles.container}>
                             <Text> Owner Homepage </Text>
-                            <Button title = 'Manage Shops' onPress={()=> this.props.navigation.navigate('OwnerManageShops')}></Button>
+                            <Button title = 'Manage Shops' onPress={()=> this.props.navigation.navigate('OwnerManageShops')} variant = "outline-primary"></Button>
                             <Button title = 'Check Orders' onPress={()=> this.props.navigation.navigate('OwnerCheckOrders')}></Button>
                             <Button title = 'Log out' onPress={()=> this.props.navigation.navigate('Login',{token:this.state.token,refresh:this.state.refresh})}></Button>
                         </SafeAreaView>
@@ -121,11 +147,21 @@ export default class Home extends Component{
 }
 
 const styles = StyleSheet.create({ 
+    text:{
+        fontWeight:'bold', 
+        flex: 6,
+        color:'black',
+        fontFamily:'NunitoSans_400Regular',
+        fontWeight: 'bold',
+        
+        fontSize: 30
+    },
     container:{
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'lightgrey',
-    }
+    },
+    
 });
 

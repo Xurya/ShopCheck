@@ -8,7 +8,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { 
   useFonts,
   NunitoSans_400Regular,
-  NunitoSans_400Regular_Italic
+  NunitoSans_400Regular_Italic,
+  NunitoSans_900Black,
+
 } from '@expo-google-fonts/nunito-sans'
 
 

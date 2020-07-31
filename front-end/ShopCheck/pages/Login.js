@@ -98,8 +98,9 @@ async function sendLogin(username, password,navigation){
     //replace with 157.245.243.174 on deploy to droplet
     //replace with LAN IP of hosting computer if using expo app on device
     //replace with 10.0.2.2 if using AVD
+    //192.168.56.1
    try {
-       let response = await fetch("http://192.168.0.126:5000/account/login", {
+       let response = await fetch("http://157.245.243.174:5000/account/login", {
            method: 'POST',
            headers: {
                'Accept': 'application/json',
