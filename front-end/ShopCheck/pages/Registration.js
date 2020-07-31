@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
+import { Image, Alert, Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
 import 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context'; //This is to support react-navigation wrapper
 import { useNavigation } from '@react-navigation/native';
@@ -13,6 +13,7 @@ export default function Registration({navigation}){
     const [buyer,setBuyer] = useState('#af5cf7')
 
     const options = {
+        fontSize:15,
         height:25,
         width:75,
         alignItems:'center',
@@ -23,34 +24,37 @@ export default function Registration({navigation}){
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={{fontSize:24}}>
+            <View style={{flex:1}}></View>
+            <Text style={styles.titletext}>
                 Registration Page
             </Text>
+            <Image style={styles.img} source={require('../assets/logov2.png')}/>
+            <View style={{flex:1}}></View>
 
             <View style={{flexDirection:'row', alignItems:'center'}}>
-                <Text style={{margin:7}}>
+                <Text style={{margin:7, fontSize: 20}}>
                     Username:
                 </Text>
                 <TextInput 
                     placeholder="Username" 
                     onChangeText={text => setUsername(text)} 
                     placeholderTextColor='white'
-                    style={{borderBottomWidth:1, padding:0}}/>
+                    style={{borderBottomWidth:1, padding:0, fontSize: 20}}/>
             </View>
             
-            <View style={{flexDirection:'row', alignItems:'center'}}>
-                <Text style={{margin:7}}>
+            <View style={{flexDirection:'row', alignItems:'center', fontSize: 20}}>
+                <Text style={{margin:7, fontSize: 20}}>
                     Email:
                 </Text>
                 <TextInput 
                     placeholder="Email" 
                     onChangeText={text => setEmail(text)} 
                     placeholderTextColor='white'
-                    style={{borderBottomWidth:1, padding:0}}/>
+                    style={{borderBottomWidth:1, padding:0, fontSize: 20}}/>
             </View> 
 
-            <View style={{flexDirection:'row', alignItems:'center'}}>
-                <Text style={{margin:7}}>
+            <View style={{flexDirection:'row', alignItems:'center', fontSize: 20}}>
+                <Text style={{margin:7, fontSize: 20}}>
                     Password:
                 </Text>
                 <TextInput 
@@ -58,7 +62,7 @@ export default function Registration({navigation}){
                     onChangeText={text => {setPassword(text)}} 
                     placeholderTextColor='white' 
                     secureTextEntry={true}
-                    style={{borderBottomWidth:1, padding:0}}/>
+                    style={{borderBottomWidth:1, padding:0,  fontSize: 20}}/>
             </View> 
             
             <View style={{flexDirection:'row', alignItems:'center'}}>   
@@ -82,19 +86,23 @@ export default function Registration({navigation}){
 
                 </TouchableOpacity>
             </View> 
+            <View style={{flex:2}}></View>
 
+            <View style={{flexDirection:'row', alignItems:'center', flex: 1}}>
+                <TouchableOpacity onPress={()=>checkRegistration(username, email, password,type,navigation)} style={styles.button}>
+                    <Text style={{fontWeight:'bold', color:'white', fontFamily:'NunitoSans_400Regular', fontSize:15}}>
+                        Register
+                    </Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity onPress={()=>checkRegistration(username, email, password,type,navigation)} style={styles.button}>
-                <Text style={{fontWeight:'bold', color:'white', fontFamily:'NunitoSans_400Regular', fontSize:15}}>
-                    Register
-                </Text>
-            </TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate("Landing")} style={styles.button}>
+                    <Text style={{fontWeight:'bold', color:'white', fontFamily:'NunitoSans_400Regular', fontSize:15}}>
+                        Back
+                    </Text>
+                </TouchableOpacity>
+            </View>
+            <View style={{flex:1}}></View>
 
-            <TouchableOpacity onPress={()=>navigation.navigate("Landing")} style={styles.button}>
-                <Text style={{fontWeight:'bold', color:'white', fontFamily:'NunitoSans_400Regular', fontSize:15}}>
-                    Back
-                </Text>
-            </TouchableOpacity>
         </SafeAreaView>
     );
 }
@@ -167,6 +175,15 @@ async function sendRegistration(username, email, password,type,navigation){
 }
 
 const styles = StyleSheet.create({ 
+    titletext:{
+        fontWeight:'bold', 
+        flex: 2,
+        color:'#009CFF',
+        fontFamily:'NunitoSans_900Black',
+        fontWeight: 'bold',
+
+        fontSize: 35
+    },
     text:{
         fontWeight:'bold', 
         color:'white',
@@ -186,11 +203,17 @@ const styles = StyleSheet.create({
       shadowRadius: 1, //IOS
       elevation: 5, // Android,
       height:40,
-      width:80,
+      width:100,
       backgroundColor:'#009CFF',
       alignItems:'center',
       justifyContent:'center',
       margin: 6,
       borderRadius:20,
+    },
+    img:{
+        width : '45%',
+        height : '45%',
+        resizeMode : 'contain',
+        margin: -68
     }
 })

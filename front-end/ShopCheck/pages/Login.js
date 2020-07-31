@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import { Alert, Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native'
+import { Image, Alert, Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native'
 
 import * as SecureStore from "expo-secure-store";
 
@@ -17,23 +17,27 @@ export default function Login({navigation}){
     const myTextInput = React.createRef();
 
     return <SafeAreaView style={styles.container}>
-        <Text style={{fontSize:24}}>
+        <View style = {{flex:1}}></View>
+
+        <Text style={styles.titletext}>
             Login Page
         </Text>
+        <Image style={styles.img} source={require('../assets/logov2.png')}/>
+        <View style = {{flex:2}}></View>
 
         <View style={{flexDirection:'row', alignItems:'center'}}>
-            <Text style={{margin:7}}>
+            <Text style={{margin:7, fontSize: 20}}>
                 Username:
             </Text>
             <TextInput 
                 placeholder="Username" 
                 onChangeText={text => setUsername(text)} 
                 placeholderTextColor='white'
-                style={{borderBottomWidth:1, padding:0}}/>
+                style={{borderBottomWidth:1, padding:0, fontSize: 20}}/>
         </View>
         
         <View style={{flexDirection:'row', alignItems:'center'}}>
-            <Text style={{margin:7}}>
+            <Text style={{margin:7, fontSize: 20}}>
                 Password:
             </Text>
             <TextInput 
@@ -42,25 +46,29 @@ export default function Login({navigation}){
                 onChangeText={text => {setPassword(text)}} 
                 placeholderTextColor='white' 
                 secureTextEntry={true}
-                style={{borderBottomWidth:1, padding:0}}/>
+                style={{borderBottomWidth:1, padding:0, fontSize: 20}}/>
         </View> 
-        <TouchableOpacity 
-            onPress={()=>{
-                checkLogin(username, password,navigation);
-                myTextInput.current.clear();
-                setPassword('');
-                }} 
-            style={styles.button}>
+        <View style = {{flex:1}}></View>
+        <View style={{flexDirection:'row', alignItems:'center', flex: 1}}>
+            <TouchableOpacity 
+                onPress={()=>{
+                    checkLogin(username, password,navigation);
+                    myTextInput.current.clear();
+                    setPassword('');
+                    }} 
+                style={styles.button}>
 
-            <Text style={styles.text}>
-                Login
-            </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={()=>navigation.navigate("Landing")} style={styles.button}>
-            <Text style={styles.text}>
-                Back
-            </Text>
-        </TouchableOpacity>
+                <Text style={styles.text}>
+                    Login
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>navigation.navigate("Landing")} style={styles.button}>
+                <Text style={styles.text}>
+                    Back
+                </Text>
+            </TouchableOpacity>
+        </View>
+        <View style = {{flex:1}}></View>
     </SafeAreaView> 
 }
 
@@ -143,6 +151,15 @@ async function sendLogin(username, password,navigation){
 }
 
 const styles = StyleSheet.create({
+    titletext:{
+        fontWeight:'bold', 
+        flex: 3,
+        color:'#009CFF',
+        fontFamily:'NunitoSans_900Black',
+        fontWeight: 'bold',
+
+        fontSize: 35
+    },
     text:{
         fontWeight:'bold', 
         color:'white',
@@ -162,11 +179,17 @@ const styles = StyleSheet.create({
       shadowRadius: 1, //IOS
       elevation: 5, // Android,
       height:40,
-      width:80,
+      width:100,
       backgroundColor:'#009CFF',
       alignItems:'center',
       justifyContent:'center',
       margin: 6,
       borderRadius:20,
+    },
+    img:{
+        width : '45%',
+        height : '45%',
+        resizeMode : 'contain',
+        margin: -68
     }
 })

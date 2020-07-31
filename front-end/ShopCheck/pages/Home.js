@@ -111,7 +111,7 @@ export default class Home extends Component{
 
                         <View style = {{flex: 1}}> 
                             <Button
-                                onPress={()=> this.props.navigation.navigate('Login',{token:this.state.token,refresh:this.state.refresh})}
+                                onPress={()=> this.props.navigation.navigate('Landing',{token:this.state.token,refresh:this.state.refresh})}
                                 title = "Log Out"    
                                 color = "red"
                             >
@@ -155,7 +155,7 @@ export default class Home extends Component{
 
                         <View style = {{flex: 1}}> 
                             <Button
-                                onPress={()=> this.props.navigation.navigate('Login',{token:this.state.token,refresh:this.state.refresh})}
+                                onPress={()=> this.props.navigation.navigate('Landing',{token:this.state.token,refresh:this.state.refresh})}
                                 title = "Log Out"    
                                 color = "red"
                             >
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
         fontWeight:'bold', 
         flex: 2,
         color:'#009CFF',
-        fontFamily:'NunitoSans_400Regular',
+        fontFamily:'NunitoSans_900Black',
         fontWeight: 'bold',
 
         fontSize: 35

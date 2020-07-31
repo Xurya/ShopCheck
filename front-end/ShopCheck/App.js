@@ -30,7 +30,8 @@ import { AppLoading } from 'expo';
 const Stack = createStackNavigator();
 
 export default function App() {
-  let [fontsLoaded] = useFonts({NunitoSans_400Regular,});
+  let [fontsLoaded] = useFonts({NunitoSans_400Regular,NunitoSans_900Black});
+
 
   if(!fontsLoaded){
     return <AppLoading />;
