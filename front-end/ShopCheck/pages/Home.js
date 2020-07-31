@@ -130,11 +130,41 @@ export default class Home extends Component{
                 else if (this.state.shop){
                     return(
                         <SafeAreaView style={styles.container}>
-                            <Text> Owner Homepage </Text>
-                            <Button title = 'Manage Shops' onPress={()=> this.props.navigation.navigate('OwnerManageShops')} variant = "outline-primary"></Button>
-                            <Button title = 'Check Orders' onPress={()=> this.props.navigation.navigate('OwnerCheckOrders')}></Button>
-                            <Button title = 'Log out' onPress={()=> this.props.navigation.navigate('Login',{token:this.state.token,refresh:this.state.refresh})}></Button>
-                        </SafeAreaView>
+                        <View style = {{flex: 1}}></View>
+                        <Text style={styles.titletext} > Owner Homepage </Text>
+                        <Image style={styles.img} source={require('../assets/logov2.png')}/>
+                        <View style = {{flex: 1}}></View>
+
+
+                        <View style = {{flex: 10}}> 
+                            <TouchableOpacity 
+                                onPress={()=> this.props.navigation.navigate('OwnerManageShops',{token:this.state.token,refresh:this.state.refresh, user: this.state.user})}
+                                style = {styles.button}
+                            >
+                            <Text style = {styles.buttontext}>Manage Shops</Text>
+                            </TouchableOpacity>
+                                                                           
+                            <TouchableOpacity 
+                                onPress={()=> this.props.navigation.navigate('OwnerCheckOrders',{token:this.state.token,refresh:this.state.refresh, user: this.state.user})}
+                                style = {styles.button}
+                            >
+                            <Text style = {styles.buttontext}>Check Incoming Orders</Text>
+                            </TouchableOpacity>                         
+                        </View>
+
+
+                        <View style = {{flex: 1}}> 
+                            <Button
+                                onPress={()=> this.props.navigation.navigate('Login',{token:this.state.token,refresh:this.state.refresh})}
+                                title = "Log Out"    
+                                color = "red"
+                            >
+                            </Button>
+                        </View>
+
+                    
+                    </SafeAreaView>
+
                     )
                 }
                 else{

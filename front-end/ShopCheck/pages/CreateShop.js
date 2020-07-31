@@ -19,7 +19,7 @@ export default class Home extends Component{
     async createShop(){
         if (!this.state.shopName || !this.state.shopName.length) {console.log('Must enter at least a single character for shop name.')}
         else {
-            let ret = await fetch('http://10.0.2.2:5000/shops/addShop',{
+            let ret = await fetch('http://157.245.243.174:5000/shops/addShop',{
                 method: 'POST',
                 headers: {
                     'Accept' : 'application/json',

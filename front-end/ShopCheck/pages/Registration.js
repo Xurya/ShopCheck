@@ -139,7 +139,7 @@ async function sendRegistration(username, email, password,type,navigation){
     //replace with LAN IP of hosting computer if using expo app on device
     //replace with 10.0.2.2 if using AVD
     try{ 
-        let response = await fetch("http://10.0.2.15:5000/account/register", {
+        let response = await fetch("http://157.245.243.174:5000/account/register", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
