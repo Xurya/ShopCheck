@@ -89,7 +89,7 @@ export default class ShopList extends Component{
                         />
 
                         <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home", {token:this.state.token,refresh:this.state.refresh, user: this.state.user})} style={styles.button}>
-                            <Text style={styles.text}>
+                            <Text style={styles.text, {color:'white'}}>
                                 Go Home
                             </Text>
                         </TouchableOpacity>
@@ -102,7 +102,7 @@ export default class ShopList extends Component{
                         Loading...
                     </Text>
                     <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home", {token:this.state.token,refresh:this.state.refresh, user: this.state.user})} style={styles.button}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text,  {color:'white'}}>
                             Back
                         </Text>
                     </TouchableOpacity>
