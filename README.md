@@ -23,12 +23,14 @@
 6. Obtain QR code and connection link, and open on your device.
 7. Press ```p``` to toggle production mode on
 
-*By default the font-end connects to the back-end running on our remote server at 157.245.243.174. If you wish to run your own local instance, you will need to manually change any IPs to your local LAN IP.
-#### Back-End
+*The font-end will by default connect to the back-end running on our remote server at 157.245.243.174:5000, where our back-end uses port 5000 by default. If you wish to run your own local instance, you will need to manually change any of these IPs to your local LAN IP.
 
+#### Back-End 
+*This is only necessary if you plan to run your own back-end rather than the one at 157.245.243.174
 
 1. Make sure you have NodeJS version 12 or above.
 2. ```cd``` into the back-end\ folder and run ```npm ci```
 3. Run ```npm start```
+
 
 
