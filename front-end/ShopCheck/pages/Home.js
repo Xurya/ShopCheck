@@ -131,7 +131,7 @@ export default class Home extends Component{
                     return(
                         <SafeAreaView style={styles.container}>
                         <View style = {{flex: 1}}></View>
-                        <Text style={styles.titletext} > Owner Homepage </Text>
+                        <Text style={styles.titletext}>{this.state.shop.name}</Text>
                         <Image style={styles.img} source={require('../assets/logov2.png')}/>
                         <View style = {{flex: 1}}></View>
 
@@ -153,11 +153,11 @@ export default class Home extends Component{
                         </View>
 
 
-                        <View style = {{flex: 1}}> 
+                        <View style = {{flex: 3}}> 
                             <Button
                                 onPress={()=> this.props.navigation.navigate('Landing',{token:this.state.token,refresh:this.state.refresh})}
                                 title = "Log Out"    
-                                color = "red"
+                                color = "lightblue"
                             >
                             </Button>
                         </View>

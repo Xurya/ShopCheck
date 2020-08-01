@@ -1,3 +1,5 @@
+const { ObjectID } = require("mongodb");
+
 class Shop {
     constructor(db) {
         this.collection = db.collection('Shop');
@@ -24,8 +26,8 @@ class Shop {
     async updateShop(shop_id, username, changeObj){
         let changes = {};
         changes[changeObj['field']] = changeObj['value'];
-        let val = await this.collection.updateOne({'_id':shop_id, 'owner':username},{$set:changes},{upsert:false});
-        return val;
+        let val = await this.collection.updateOne({'_id': ObjectID(shop_id), 'owner':username},{$set:changes},{upsert:false});
+        return val.result.n;
     }
 }
 

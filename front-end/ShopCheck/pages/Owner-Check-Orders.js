@@ -18,8 +18,7 @@ export default function Landing({navigation}){
 }
 
 const styles = StyleSheet.create({ 
-    text:{
-      fontWeight:'bold', 
+    text:{ 
       color:'white',
       fontFamily:'NunitoSans_400Regular',
       fontSize:15
