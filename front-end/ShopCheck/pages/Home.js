@@ -113,7 +113,7 @@ export default class Home extends Component{
                             <Button
                                 onPress={()=> this.props.navigation.navigate('Landing',{token:this.state.token,refresh:this.state.refresh})}
                                 title = "Log Out"    
-                                color = "red"
+                                color = "lightblue"
                             >
                             </Button>
                         </View>
@@ -223,6 +223,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'lightgrey',
     },
-    
+ 
 });
 
