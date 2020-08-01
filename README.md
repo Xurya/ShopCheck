@@ -14,9 +14,11 @@
 
 ## Deployment
 ### Ubuntu 16.04 LTS
+#### Front-End
 1. Make sure you have NodeJS installed, so that npm can be used.
 2. In bash, run ```sudo npm install -g expo-cli```
 3. ```cd``` into the front-end\ShopCheck folder and run ```npm ci```
 4. Run ```npm start``` if deploying locally, or run ```expo start --tunnel``` for deploying over the network.
 5. Press ```shift-d``` to disable automatically opening DevTools at startup.
 6. Press ```p``` to toggle production mode on
+#### Back-End
