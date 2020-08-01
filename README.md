@@ -15,6 +15,8 @@
 ## Deployment
 ### Ubuntu 16.04 LTS
 #### Front-End
+*This is only necessary if you plan to run your own front-end rather than the provided QR code from 157.245.243.174
+
 1. Make sure you have NodeJS version 12 or above.
 2. In bash, run ```sudo npm install -g expo-cli```
 3. ```cd``` into the front-end\ShopCheck folder and run ```npm ci```
