@@ -20,6 +20,7 @@
 3. ```cd``` into the front-end\ShopCheck folder and run ```npm ci```
 4. Run ```npm start``` if deploying locally, or run ```expo start --tunnel``` for deploying over the network.
 5. Press ```shift-d``` to disable automatically opening DevTools at startup.
+6. Obtain QR code and connection link
 6. Press ```p``` to toggle production mode on
 #### Back-End
 1. Make sure you have NodeJS version 12 or above.
