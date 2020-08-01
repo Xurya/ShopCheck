@@ -26,7 +26,7 @@
 6. Obtain QR code and connection link, and open on your device.
 7. Press ```p``` to toggle production mode on
 
-*The font-end will by default connect to the back-end running on our remote server at 157.245.243.174:5000, where our back-end uses port 5000 by default. If you wish to run your own local instance, you will need to manually change any of these IPs to your local LAN IP.
+*The front-end will by default connect to the back-end running on our remote server at 157.245.243.174:5000, where our back-end uses port 5000 by default. If you wish to run your own local instance, you will need to manually change any of these IPs to your local LAN IP.
 
 #### Back-End 
 
