@@ -104,16 +104,16 @@ export default class OrderForm extends Component{
     if(this.state.arr && this.state.shop){
       return(
         <SafeAreaView style={styles.container}>
-          <Text style={{fontSize:24, marginVertical:20}}>{this.state.shopname}</Text>
+          <Text style={styles.titletext}>{this.state.shopname}</Text>
           <FlatList
             data={this.state.shop.inventory}
             width = "100%"
             renderItem={({item, index}) => 
-              <View style={{marginHorizontal:20, marginVertical:10, flexDirection:'row', alignItems:'center'}}>
-                <Text style={{flex:1}}>
+              <View style={styles.item}>
+                <Text style={{flex:1,fontSize:18}}>
                    {item}
                 </Text>
-                <TextInput style={{marginLeft:"auto"}}
+                <TextInput style={{fontSize:18}}
                   placeholder="0" 
                   onChangeText={ text =>
                     this.setState(
@@ -144,8 +144,8 @@ export default class OrderForm extends Component{
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={()=>this.props.navigation.navigate("Landing")} style={styles.button}>
-                <Text style={{fontWeight:'bold', color:'white', fontFamily:'NunitoSans_400Regular', fontSize:15}}>
+          <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home")} style={styles.button}>
+                <Text style={styles.text}>
                     Back
                 </Text>
             </TouchableOpacity>
@@ -155,8 +155,8 @@ export default class OrderForm extends Component{
       return (
         <SafeAreaView>
           <Text>Loading...</Text>
-          <TouchableOpacity onPress={()=>this.props.navigation.navigate("Landing")} style={styles.button}>
-                <Text style={{fontWeight:'bold', color:'white', fontFamily:'NunitoSans_400Regular', fontSize:15}}>
+          <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home")} style={styles.button}>
+                <Text >
                     Back
                 </Text>
             </TouchableOpacity>
@@ -191,8 +191,25 @@ export function makeCancelable(promise) {
   }
 
 const styles = StyleSheet.create({ 
+  titletext:{
+    fontWeight:'bold', 
+    //flex: 1,
+    color:'#009CFF',
+    fontFamily:'NunitoSans_900Black',
+    fontWeight: 'bold',
+    marginBottom: 30,
+    fontSize: 35
+  }, 
+  item:{
+    marginHorizontal:40, 
+    marginVertical:10, 
+    fontSize: 20,
+    flexDirection:'row', 
+    alignItems:'center'
+
+  },
     text:{
-        fontWeight:'bold', 
+        fontWeight:'bold',
         color:'white',
         fontFamily:'NunitoSans_400Regular',
         fontSize:15
@@ -201,7 +218,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#9db1e0',
+        backgroundColor: 'lightgrey',
     },
     button:{
       shadowColor: 'rgba(0,0,0, .4)', // IOS

@@ -14,7 +14,7 @@ export default class ShopList extends Component{
         }
 
         this.cancellablePromise = makeCancelable(
-            fetch("http://192.168.0.126:5000/shops/getAllShops", {
+            fetch("http://157.245.243.174:5000/shops/getAllShops", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -58,7 +58,7 @@ export default class ShopList extends Component{
         if(this.state.shops){
             return (
                 <SafeAreaView style={styles.container}>
-                        <Text style={{fontSize:24, marginTop:30}}>
+                        <Text style={styles.titletext}>
                             Shop List
                         </Text>
 
@@ -66,9 +66,16 @@ export default class ShopList extends Component{
                             data={this.state.shops}
                             width = "100%"
                             renderItem={({item, index}) => 
-                                <View style={{marginHorizontal: 30, marginTop:30}}>
-                                    <Button title = {item.name} onPress={()=>this.props.navigation.navigate("OrderForm", {token:this.state.token, refresh:this.state.refresh, user: this.state.user, shop: item.name})}></Button>
-                                    <FlatList style={{alignItems:'center'}}
+                                <View style={styles.ordercontainer}>
+                                    <TouchableOpacity 
+                                        onPress={()=>this.props.navigation.navigate("OrderForm", {token:this.state.token, refresh:this.state.refresh, user: this.state.user, shop: item.name})} 
+                                        style={styles.text}>
+                                        <Text style={styles.text}>
+                                            {item.name}
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <FlatList 
+                                        style={{alignItems:'center', marginTop: 10}}
                                         data={item.inventory}
                                         width = "100%"
                                         renderItem={({item, index}) => 
@@ -82,7 +89,7 @@ export default class ShopList extends Component{
                         />
 
                         <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home")} style={styles.button}>
-                            <Text style={styles.text}>
+                            <Text style={styles.text,{color:'white'}}>
                                 Go Home
                             </Text>
                         </TouchableOpacity>
@@ -123,17 +130,41 @@ export function makeCancelable(promise) {
   }
 
 const styles = StyleSheet.create({ 
+    titletext:{
+        fontWeight:'bold', 
+        //flex: 1,
+        color:'#009CFF',
+        fontFamily:'NunitoSans_900Black',
+        fontWeight: 'bold',
+    
+        fontSize: 35
+      },
     text:{
         fontWeight:'bold', 
-        color:'white',
-        fontFamily:'NunitoSans_400Regular',
-        fontSize:15
+        color:'#009CFF',
+        fontFamily:'NunitoSans_900Black',
+        fontSize:17,
+        alignItems: 'center',
+
     },
     container:{
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#9db1e0',
+        backgroundColor: 'lightgrey',
+    },
+    ordercontainer:{
+        padding: 15,
+        shadowColor: 'rgba(0,0,0, .1)', // IOS
+        shadowOffset: { height: 1, width: 1 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 1, //IOS
+        elevation: 5, // Android,
+        borderRadius:15,
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        marginHorizontal: 30, 
+        marginTop:30
     },
     button:{
       shadowColor: 'rgba(0,0,0, .4)', // IOS
@@ -148,5 +179,7 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       margin: 6,
       borderRadius:20,
+      fontFamily:'NunitoSans_900Black',
+
     }
 })

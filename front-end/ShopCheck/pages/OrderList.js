@@ -89,7 +89,7 @@ export default class OrderList extends Component{
                         
 
                         <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home")} style={styles.button}>
-                            <Text style={styles.text}>
+                            <Text style={styles.text,{color:'white'}}>
                                 Back
                             </Text>
                         </TouchableOpacity>
