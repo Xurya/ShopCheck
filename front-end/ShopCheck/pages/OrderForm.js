@@ -144,13 +144,8 @@ export default class OrderForm extends Component{
             </Text>
           </TouchableOpacity>
 
-<<<<<<< HEAD
-          <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home")} style={styles.button}>
-                <Text style={styles.text}>
-=======
           <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home", {token:this.state.token,refresh:this.state.refresh, user: this.state.user})} style={styles.button}>
-                <Text style={{fontWeight:'bold', color:'white', fontFamily:'NunitoSans_400Regular', fontSize:15}}>
->>>>>>> 5a61a3c5dafb96e8166b294c74924176a11ddf1c
+                <Text style={styles.text}>
                     Back
                 </Text>
             </TouchableOpacity>
@@ -160,13 +155,8 @@ export default class OrderForm extends Component{
       return (
         <SafeAreaView>
           <Text>Loading...</Text>
-<<<<<<< HEAD
-          <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home")} style={styles.button}>
-                <Text >
-=======
           <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home", {token:this.state.token,refresh:this.state.refresh, user: this.state.user})} style={styles.button}>
-                <Text style={{fontWeight:'bold', color:'white', fontFamily:'NunitoSans_400Regular', fontSize:15}}>
->>>>>>> 5a61a3c5dafb96e8166b294c74924176a11ddf1c
+                <Text >
                     Back
                 </Text>
             </TouchableOpacity>
