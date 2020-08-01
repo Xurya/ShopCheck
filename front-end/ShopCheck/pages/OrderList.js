@@ -76,7 +76,7 @@ export default class OrderList extends Component{
                                         data={item.items}
                                         width = "100%"
                                         renderItem={({item, index}) => 
-                                            <Text style={styles.text}>        {item}</Text>
+                                            <Text style={styles.text}>        Item {index}: {item}</Text>
                                         } 
                                         keyExtractor={(item, index) => index.toString()}
                                     />
