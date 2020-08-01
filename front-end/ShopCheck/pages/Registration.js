@@ -28,7 +28,6 @@ export default function Registration({navigation}){
             <Text style={styles.titletext}>
                 Registration Page
             </Text>
-            <Image style={styles.img} source={require('../assets/logov2.png')}/>
             <View style={{flex:1}}></View>
 
             <View style={{flexDirection:'row', alignItems:'center'}}>
@@ -86,9 +85,10 @@ export default function Registration({navigation}){
 
                 </TouchableOpacity>
             </View> 
-            <View style={{flex:2}}></View>
+            <View style={{flex:5}}></View>
+            <Image style={styles.img} source={require('../assets/logov2.png')}/>
 
-            <View style={{flexDirection:'row', alignItems:'center', flex: 1}}>
+            <View style={{flexDirection:'row', alignItems:'center', flex: 3}}>
                 <TouchableOpacity onPress={()=>checkRegistration(username, email, password,type,navigation)} style={styles.button}>
                     <Text style={{fontWeight:'bold', color:'white', fontFamily:'NunitoSans_400Regular', fontSize:15}}>
                         Register
@@ -101,7 +101,7 @@ export default function Registration({navigation}){
                     </Text>
                 </TouchableOpacity>
             </View>
-            <View style={{flex:1}}></View>
+            <View style={{flex:2}}></View>
 
         </SafeAreaView>
     );

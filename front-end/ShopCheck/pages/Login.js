@@ -22,8 +22,6 @@ export default function Login({navigation}){
         <Text style={styles.titletext}>
             Login Page
         </Text>
-        <Image style={styles.img} source={require('../assets/logov2.png')}/>
-        <View style = {{flex:2}}></View>
 
         <View style={{flexDirection:'row', alignItems:'center'}}>
             <Text style={{margin:7, fontSize: 20}}>
@@ -48,8 +46,11 @@ export default function Login({navigation}){
                 secureTextEntry={true}
                 style={{borderBottomWidth:1, padding:0, fontSize: 20}}/>
         </View> 
-        <View style = {{flex:1}}></View>
-        <View style={{flexDirection:'row', alignItems:'center', flex: 1}}>
+        <View style = {{flex:4}}></View>
+
+        <Image style={styles.img} source={require('../assets/logov2.png')}/>
+
+        <View style={{flexDirection:'row', alignItems:'center', flex: 2}}>
             <TouchableOpacity 
                 onPress={()=>{
                     checkLogin(username, password,navigation);
