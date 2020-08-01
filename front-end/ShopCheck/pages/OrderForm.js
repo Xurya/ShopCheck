@@ -83,7 +83,7 @@ export default class OrderForm extends Component{
           res.json().then((body,err)=>{
               console.log(body);
               this.sendAlertOK(body.status, body.mesasge);
-              this.props.navigation.navigate("Home");
+              this.props.navigation.navigate("Home", {token:this.state.token,refresh:this.state.refresh, user: this.state.user});
           })
       }
     })
@@ -144,7 +144,7 @@ export default class OrderForm extends Component{
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={()=>this.props.navigation.navigate("Landing")} style={styles.button}>
+          <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home", {token:this.state.token,refresh:this.state.refresh, user: this.state.user})} style={styles.button}>
                 <Text style={{fontWeight:'bold', color:'white', fontFamily:'NunitoSans_400Regular', fontSize:15}}>
                     Back
                 </Text>
@@ -155,7 +155,7 @@ export default class OrderForm extends Component{
       return (
         <SafeAreaView>
           <Text>Loading...</Text>
-          <TouchableOpacity onPress={()=>this.props.navigation.navigate("Landing")} style={styles.button}>
+          <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home", {token:this.state.token,refresh:this.state.refresh, user: this.state.user})} style={styles.button}>
                 <Text style={{fontWeight:'bold', color:'white', fontFamily:'NunitoSans_400Regular', fontSize:15}}>
                     Back
                 </Text>

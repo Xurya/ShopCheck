@@ -81,7 +81,7 @@ export default class ShopList extends Component{
                             keyExtractor={(item, index) => index.toString()}
                         />
 
-                        <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home")} style={styles.button}>
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home", {token:this.state.token,refresh:this.state.refresh, user: this.state.user})} style={styles.button}>
                             <Text style={styles.text}>
                                 Go Home
                             </Text>
@@ -91,7 +91,14 @@ export default class ShopList extends Component{
         } else {
             return(
                 <SafeAreaView style={styles.container}>
-                    
+                    <Text style={styles.text}>
+                        Loading...
+                    </Text>
+                    <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home", {token:this.state.token,refresh:this.state.refresh, user: this.state.user})} style={styles.button}>
+                        <Text style={styles.text}>
+                            Back
+                        </Text>
+                    </TouchableOpacity>
                 </SafeAreaView>
             );
         } 
