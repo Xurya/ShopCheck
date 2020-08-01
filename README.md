@@ -12,7 +12,10 @@ https://youtu.be/5IEPpi10a7I
 2. Open the Camera app and scan the QR code detailed below
 ### Android
 1. Download and install the [Expo Client](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en_US) from the Google Play Store
-2. Open up the Expo app and scan the QR code detailed below
+2. Open up the Expo app and scan the QR code detailed below  
+
+#### QR CODE (exp://9g-f5q.anonymous.shopcheck.exp.direct:80)
+![QRCODE](https://media.discordapp.net/attachments/725910956542132300/738973367654285372/unknown.png)
 
 ## Deployment
 *The following steps are necessary only if you plan to deploy your own back-end and front-end rather than the ones provided from 157.245.243.174
