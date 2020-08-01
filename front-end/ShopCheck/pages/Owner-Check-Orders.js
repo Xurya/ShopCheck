@@ -1,39 +1,196 @@
-import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Image, Button, StyleSheet, View, TouchableOpacity, Text} from 'react-native';
+import React, {Component } from 'react';
+import { Text, Button, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context'; //This is to support react-navigation wrapper
 
-export default function Landing({navigation}){
-    return(
-        <SafeAreaView style={styles.container}>
-            <Image style={styles.img} source={require('../assets/logov2.png')}/>
-            <Text> Incoming Orders </Text>
-            <TouchableOpacity onPress={()=>navigation.navigate("Home")} style={styles.button}>
-                <Text style={styles.text}>
-                    Go Home
-                </Text>
-            </TouchableOpacity>
+export default class OwnerCheckOrders extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            token: props.route.params.token,
+            refresh: props.route.params.refresh,
+            user: props.route.params.user,
+            shops: {name:""},
+            orders: null
+        }
 
-        </SafeAreaView>
-    );
+        this.cancellablePromise = makeCancelable(
+          fetch("http://157.245.243.174:5000/shops/getShop", {
+              method: 'POST',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({token:this.state.token, refresh:this.state.refresh, username: this.state.user.username})
+          }));
+
+          this.cancellablePromise2 = null;
+    }
+    // Retrieve Shop Data
+    componentDidMount(){
+        // If temporary token is invalid, generate new one with refresh token.
+        // If refresh token also invalid, notify user of invalid session --> navigate to login.
+        if (!this.state.orders){
+            this.cancellablePromise.promise
+            .then((res,err)=>{
+                if (err) console.error(err);
+                else {
+                    res.json().then((body,err)=>{
+                        console.log(body);
+                        if (body['newToken']){
+                            this.setState((state,props)=>{return {token : body['newToken']}});
+                        }
+                        if (body['status'] == 'fail'){
+                            console.log('Session Expired: Verification Failed');
+                            this.props.navigation.navigate('Landing');
+                        }
+                        else{
+                            this.setState((state,props)=>{return {shops: body["shops"]}})
+                            console.log(body["shops"].name);
+                            this.cancellablePromise2 = makeCancelable(
+                              fetch("http://157.245.243.174:5000/order/query", {
+                                  method: 'POST',
+                                  headers: {
+                                      'Accept': 'application/json',
+                                      'Content-Type': 'application/json'
+                                  },
+                                  body: JSON.stringify({token:this.state.token, refresh:this.state.refresh, username: this.state.user.username, query:{shopId: this.state.shops.name}})
+                              }));
+                            this.cancellablePromise2.promise
+                          .then((res,err)=>{
+                            if (err) console.error(err);
+                            else {
+                                res.json().then((body,err)=>{
+                                    console.log(body);
+                                    if (body['newToken']){
+                                        this.setState((state,props)=>{return {token : body['newToken']}});
+                                    }
+                                    if (body['status'] == 'fail'){
+                                        console.log('Session Expired: Verification Failed');
+                                        this.props.navigation.navigate('Landing');
+                                    }
+                                    else{
+                                        this.setState((state,props)=>{return {orders: body["orders"]}});
+                                    }
+                                })
+                            }
+                        })
+                        }
+                    })
+                }
+            })
+        }
+    }
+
+    componentWillUnmount(){
+        this.cancellablePromise.cancel();
+        if(this.cancellablePromise2!=null){
+          this.cancellablePromise2.cancel();
+        }
+    }
+
+    render(){
+        if(this.state.orders){
+            return (
+                <SafeAreaView style={styles.container}>
+                        <Text style={styles.titletext}>
+                            {this.state.user.username}'s Orders
+                        </Text>
+        
+                        <FlatList 
+                            data={this.state.orders}
+                            width = "100%"
+                            renderItem={({item, index}) =>
+                                <View style = {styles.ordercontainer}>
+                                    <Text style={styles.text}>
+                                        Order Number: {item._id}{"\n"}
+                                        Order Complete: {""+item.status}{"\n"}
+                                        Order Items:
+                                    </Text>
+                                    <FlatList 
+                                        data={item.items}
+                                        width = "100%"
+                                        renderItem={({item, index}) => 
+                                            <Text style={styles.text}>        Item {index}: {item}</Text>
+                                        } 
+                                        keyExtractor={(item, index) => index.toString()}
+                                    />
+                                </View>
+
+                                
+                            } 
+                            keyExtractor={(item, index) => index.toString()}
+                        />
+                        
+
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home", {token:this.state.token,refresh:this.state.refresh, user: this.state.user})} style={styles.button}>
+                            <Text style={styles.text, {color:'white'}}>
+                                Back
+                            </Text>
+                        </TouchableOpacity>
+                </SafeAreaView>
+            );
+        } else {
+            return(
+                <SafeAreaView style={styles.container}>
+                    
+                </SafeAreaView>
+            );
+        } 
+    }
 }
 
-const styles = StyleSheet.create({ 
-    text:{ 
-      color:'white',
-      fontFamily:'NunitoSans_400Regular',
-      fontSize:15
+export function makeCancelable(promise) {
+    let isCanceled = false;
+    const wrappedPromise =
+      new Promise((resolve, reject) => {
+        promise
+          .then(
+            val => (isCanceled
+              ? reject(new Error({ isCanceled })) 
+              : resolve(val))
+          )
+          .catch(
+            error => (isCanceled
+              ? reject(new Error({ isCanceled }))
+              : reject(error))
+          );
+      });
+    return {
+      promise: wrappedPromise,
+      cancel() {
+        isCanceled = true;
+      },
+    };
+  }
+
+const styles = StyleSheet.create({
+    titletext:{
+        fontWeight:'bold', 
+        //flex: 1,
+        color:'#009CFF',
+        fontFamily:'NunitoSans_900Black',
+        fontWeight: 'bold',
+
+        fontSize: 35
+    }, 
+    text:{
+        margin: 10,
+        fontFamily:'NunitoSans_400Regular',
+        fontSize:15
     },
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#9db1e0',
-    },
-    img : {
-      width : '45%',
-      height : '45%',
-      resizeMode : 'contain',
-      margin: -68
+    ordercontainer:{
+        margin: 15,
+        shadowColor: 'rgba(0,0,0, .1)', // IOS
+        shadowOffset: { height: 1, width: 1 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 1, //IOS
+        elevation: 5, // Android,
+        borderRadius:15,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#9db1e0',
     },
     button:{
       shadowColor: 'rgba(0,0,0, .4)', // IOS
@@ -41,12 +198,18 @@ const styles = StyleSheet.create({
       shadowOpacity: 1, // IOS
       shadowRadius: 1, //IOS
       elevation: 5, // Android,
-      height:45,
-      width:110,
+      height:40,
+      width:80,
       backgroundColor:'#009CFF',
       alignItems:'center',
       justifyContent:'center',
       margin: 6,
       borderRadius:20,
+    },
+    container:{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'lightgrey',
     }
-  });
+})
