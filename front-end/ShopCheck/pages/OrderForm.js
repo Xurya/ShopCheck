@@ -17,7 +17,7 @@ export default class OrderForm extends Component{
     }
 
     this.cancellablePromise = makeCancelable(
-      fetch("http://192.168.0.126:5000/shops/getAllShops", {
+      fetch("http://157.245.243.174:5000/shops/getAllShops", {
           method: 'POST',
           headers: {
               'Accept': 'application/json',
@@ -69,7 +69,7 @@ export default class OrderForm extends Component{
 
   makeOrder(){
     this.cancellablePromise2 = makeCancelable(
-      fetch("http://192.168.0.126:5000/order/add", {
+      fetch("http://157.245.243.174:5000/order/add", {
           method: 'POST',
           headers: {
               'Accept': 'application/json',
