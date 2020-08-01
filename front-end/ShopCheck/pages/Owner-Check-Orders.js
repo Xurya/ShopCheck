@@ -94,7 +94,7 @@ export default class OwnerCheckOrders extends Component{
             return (
                 <SafeAreaView style={styles.container}>
                         <Text style={styles.titletext}>
-                            {this.state.user.username}'s Orders
+                            Orders
                         </Text>
         
                         <FlatList 
