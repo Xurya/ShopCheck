@@ -13,8 +13,11 @@
 2. Open up the Expo app and scan the QR code detailed below
 
 ## Deployment
+*The following steps are necessary only if you plan to deploy your own back-end and front-end rather than the ones provided from 157.245.243.174
+
 ### Ubuntu 16.04 LTS
 #### Front-End
+
 1. Make sure you have NodeJS version 12 or above.
 2. In bash, run ```sudo npm install -g expo-cli```
 3. ```cd``` into the front-end\ShopCheck folder and run ```npm ci```
@@ -26,7 +29,6 @@
 *The font-end will by default connect to the back-end running on our remote server at 157.245.243.174:5000, where our back-end uses port 5000 by default. If you wish to run your own local instance, you will need to manually change any of these IPs to your local LAN IP.
 
 #### Back-End 
-*This is only necessary if you plan to run your own back-end rather than the one at 157.245.243.174
 
 1. Make sure you have NodeJS version 12 or above.
 2. ```cd``` into the back-end\ folder and run ```npm ci```
