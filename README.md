@@ -1,6 +1,6 @@
 # ShopCheck
-Presentation:
-https://youtu.be/5IEPpi10a7I
+
+## DROPLET IS NOW OFFLINE
 
 - As the the economy reopens due to the pandemic, small businesses need a platform to communicate their available services through the transition phases.
 - ShopCheck seeks to provide a solution, by connecting services to customers, through versatile and attainable mobile platforms.
