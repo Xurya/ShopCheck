@@ -9,7 +9,7 @@
   "author": "Conan Wong, Jimmy Zhang, Ryan Xu",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "express-promise-router": "^4.0.1",
     "jsonwebtoken": "^8.5.1",
     "mongod": "^2.0.0",
